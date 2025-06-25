@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>3D Shop</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <div class="logo-text">3DPy</div>
+    <div class="logo-text">3D</div>
 
     <div class="search-bar">
       <input type="text" id="searchInput" placeholder="Search products..." />
@@ -23,7 +24,6 @@
     </a>
   </header>
 
-  <!-- 🔍 Category Filter -->
   <div class="category-filter">
     <button class="category-btn active" data-category="all">All</button>
     <button class="category-btn" data-category="shoes">Shoes</button>
@@ -31,7 +31,6 @@
     <button class="category-btn" data-category="hats">Hats</button>
   </div>
 
-  <!-- 🛍 Product Grid -->
   <main class="product-grid">
     <div class="product-card" data-category="shoes">
       <img src="https://via.placeholder.com/150" alt="Shoe" />
