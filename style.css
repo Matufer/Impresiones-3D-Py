@@ -61,7 +61,6 @@ header h1 {
 /* Search Bar */
 .search-bar {
   position: relative;
-  margin-left: 20px;
   flex-grow: 1;
   max-width: 350px;
 }
@@ -216,21 +215,16 @@ ul#cartItems li {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-#totalPrice {
+#totalPrice, #checkoutTotal {
   font-weight: bold;
   font-size: 1.2rem;
   margin-top: 10px;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
+/* Responsive for small screens */
+@media (max-width: 768px) {
   body {
     padding: 15px 20px;
-  }
-
-  .search-bar {
-    max-width: 100%;
-    margin: 10px 0;
   }
 
   header {
@@ -238,7 +232,40 @@ ul#cartItems li {
     align-items: flex-start;
   }
 
+  .search-bar {
+    max-width: 100%;
+    width: 100%;
+    margin: 10px 0;
+  }
+
   .category-filter {
     justify-content: center;
+  }
+
+  .product-card {
+    padding: 15px;
+  }
+
+  .product-card img {
+    height: 140px;
+  }
+
+  .product-card h3 {
+    font-size: 1rem;
+  }
+
+  .product-card p {
+    font-size: 1rem;
+  }
+
+  .product-card button {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+  }
+
+  .form-btn {
+    width: 100%;
+    text-align: center;
+    padding: 14px;
   }
 }
