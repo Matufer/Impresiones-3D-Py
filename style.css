@@ -176,13 +176,84 @@ main {
   position: relative;
 }
 
-main img {
+/* Carousel Container */
+.carousel-container {
+  position: relative;
   max-width: 100%;
-  height: auto;
+  height: 400px; /* fixed height for consistent image display */
   margin-bottom: 20px;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* The sliding container holding images */
+#carouselSlide {
+  display: flex;
+  transition: transform 0.4s ease-in-out;
+  height: 100%;
+}
+
+/* Each image inside carousel */
+#carouselSlide img {
+  width: 100%;
+  flex-shrink: 0;
+  height: 100%;
+  object-fit: contain; /* maintain aspect ratio without cropping */
   border-radius: 12px;
 }
 
+/* Carousel buttons */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  font-size: 2rem;
+  padding: 10px 15px;
+  cursor: pointer;
+  z-index: 2;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.carousel-btn:hover {
+  background-color: rgba(0,0,0,0.7);
+}
+
+.carousel-btn.prev {
+  left: 10px;
+}
+
+.carousel-btn.next {
+  right: 10px;
+}
+
+/* Carousel dots container */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 8px;
+}
+
+/* Individual dot */
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.carousel-dot.active {
+  background-color: #28a745;
+}
+
+/* Other PRODUCT PAGE elements */
 #productName {
   font-size: 2rem;
   margin-bottom: 15px;
@@ -391,5 +462,10 @@ main img {
   #clearCart, #checkoutBtn {
     padding: 10px 20px;
     font-size: 1rem;
+  }
+
+  .carousel-btn {
+    font-size: 1.5rem;
+    padding: 6px 10px;
   }
 }
