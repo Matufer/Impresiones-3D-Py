@@ -1,20 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Checkout</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pagar</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0 15px 40px 15px;
+      color: #333;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin: 25px 0 10px 0;
+      color: #28a745;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .back-btn:hover {
+      color: #1e7e34;
+    }
+
+    main {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    h2 {
+      color: #212529;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+    }
+
+    p, ul {
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 25px;
+    }
+    ul li {
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #212529;
+    }
+
+    #checkoutTotal {
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: #28a745;
+    }
+
+    .form-btn {
+      display: inline-block;
+      background-color: #28a745;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 25px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+    }
+    .form-btn:hover {
+      background-color: #1e7e34;
+    }
+
+    .whatsapp-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #25D366;
+      color: white;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      z-index: 1000;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+    }
+    .whatsapp-btn:hover {
+      background-color: #1da851;
+    }
+    .whatsapp-btn svg {
+      width: 30px;
+      height: 30px;
+      stroke: white;
+    }
+  </style>
 </head>
 <body>
-  <a href="cart.html" class="back-btn">← Back to Cart</a>
+  <a href="cart.html" class="back-btn">← Volver al carrito</a>
 
-  <main style="margin-top: 20px;">
-    <h2>Manual Payment</h2>
+  <main>
+    <h2>Pago Manual</h2>
     <p><strong>Total:</strong> <span id="checkoutTotal">$0.00</span></p>
     <p>Transferir el total a la cuenta:</p>
     <ul>
       <li><strong>Banco:</strong> Ueno Bank</li>
-      <li><strong>Alais CI:</strong> 5253486</li>
+      <li><strong>Alias CI:</strong> 5253486</li>
       <li><strong>Nombre:</strong> Matias Ferreira</li>
     </ul>
     <p>Luego completar el formulario:</p>
@@ -23,10 +128,54 @@
       href="#"
       target="_blank"
       class="form-btn"
-      >Open Payment Form</a
-    >
+    >Abrir formulario de pago</a>
   </main>
 
-  <script src="script.js"></script>
+  <a
+    href="https://wa.me/595987420115"
+    target="_blank"
+    aria-label="Chatear en WhatsApp"
+    class="whatsapp-btn"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+      <path d="M21 12.29c0-5.06-4.11-9.17-9.17-9.17A9.13 9.13 0 003.6 15.1l-1.11 4.07 4.16-1.09a9.14 9.14 0 004.58 1.2c.16 0 .31 0 .47-.01A9.18 9.18 0 0021 12.29z"></path>
+      <path d="M8.37 10.57a5.48 5.48 0 005.05 5.05"></path>
+    </svg>
+  </a>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const paymentFormLink = document.getElementById("paymentFormLink");
+      const checkoutTotal = document.getElementById("checkoutTotal");
+
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let total = 0;
+
+      // Agrupar productos por ID y contar cantidades
+      const grouped = {};
+      cart.forEach(item => {
+        const key = item.id || item.name;
+        if (!grouped[key]) grouped[key] = 0;
+        grouped[key]++;
+        total += item.price;
+      });
+
+      // Formatear para Google Forms: p001 (x3), p002 (x1)
+      const formattedItems = Object.entries(grouped)
+        .map(([id, count]) => `${id} (x${count})`)
+        .join(", ");
+
+      if (checkoutTotal) {
+        checkoutTotal.textContent = `$${total.toFixed(2)}`;
+      }
+
+      if (paymentFormLink) {
+        const baseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfekmdBwfZJTPKkOqDsy0kKz3Fp7bfq649KP5-CB0wnNvcmQg/viewform";
+        const entryId = "930752464";
+        paymentFormLink.href = `${baseUrl}?usp=pp_url&entry.${entryId}=${encodeURIComponent(formattedItems)}`;
+      }
+    });
+  </script>
 </body>
 </html>
