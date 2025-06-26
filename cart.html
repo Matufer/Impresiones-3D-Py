@@ -2,7 +2,6 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Carrito</title>
   <link rel="stylesheet" href="style.css" />
   <style>
@@ -130,11 +129,11 @@
 
     <ul id="cartItems"></ul>
 
-    <div id="totalPrice">Total: $0.00</div>
+    <div id="totalPrice">Total: ₲0</div>
 
     <button id="clearCart">Vaciar carrito</button>
 
-    <a href="checkout.html" class="form-btn" id="checkoutBtn">Proceder al pago</a>
+    <a href="checkout.html" class="form-btn" id="checkoutBtn">Finalizar compra</a>
   </main>
 
   <a class="whatsapp-btn" href="https://wa.me/595987420115" target="_blank" aria-label="Chatear en WhatsApp">
@@ -145,6 +144,57 @@
     </svg>
   </a>
 
-  <script src="script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const cartItemsContainer = document.getElementById("cartItems");
+      const totalPriceEl = document.getElementById("totalPrice");
+      const clearCartBtn = document.getElementById("clearCart");
+
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      function renderCart() {
+        cartItemsContainer.innerHTML = "";
+        let total = 0;
+
+        cart.forEach((item, index) => {
+          const li = document.createElement("li");
+
+          const img = document.createElement("img");
+          img.src = item.images?.[0] || item.image || "";
+          img.alt = item.name;
+
+          const info = document.createElement("div");
+          info.innerHTML = `<strong>${item.name}</strong><br>₲${Number(item.price).toLocaleString("es-PY")}`;
+
+          const removeBtn = document.createElement("button");
+          removeBtn.textContent = "×";
+          removeBtn.addEventListener("click", () => {
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            renderCart();
+          });
+
+          li.appendChild(img);
+          li.appendChild(info);
+          li.appendChild(removeBtn);
+          cartItemsContainer.appendChild(li);
+
+          total += Number(item.price);
+        });
+
+        totalPriceEl.textContent = `Total: ₲${total.toLocaleString("es-PY")}`;
+      }
+
+      renderCart();
+
+      clearCartBtn.addEventListener("click", () => {
+        if (confirm("¿Estás seguro de que deseas vaciar el carrito?")) {
+          localStorage.removeItem("cart");
+          cart = [];
+          renderCart();
+        }
+      });
+    });
+  </script>
 </body>
 </html>
