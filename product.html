@@ -4,13 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Detalles del Producto</title>
-  <link rel="stylesheet" href="style.css" />
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #f8f9fa;
       margin: 0;
-      padding: 0 15px 40px 15px;
+      padding: 15px;
       color: #333;
     }
 
@@ -22,13 +21,14 @@
       text-decoration: none;
       transition: color 0.3s ease;
     }
+
     .back-btn:hover {
       color: #1e7e34;
     }
 
     main {
       max-width: 600px;
-      margin: 0 auto;
+      margin: 0 auto 40px auto;
       background: white;
       padding: 25px;
       border-radius: 12px;
@@ -36,18 +36,86 @@
       text-align: center;
     }
 
-    #productImage {
+    /* Carousel container */
+    .carousel-container {
+      position: relative;
       max-width: 100%;
-      height: auto;
-      border-radius: 12px;
+      height: 400px; /* fixed height */
       margin-bottom: 20px;
+      overflow: hidden;
+      border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    #carouselSlide {
+      display: flex;
+      height: 100%;
+      transition: transform 0.4s ease-in-out;
+      will-change: transform;
+    }
+
+    #carouselSlide img {
+      flex: 0 0 100%; /* each image takes full container width */
+      height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      font-size: 2rem;
+      padding: 10px 15px;
+      cursor: pointer;
+      z-index: 2;
+      border-radius: 50%;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+
+    .carousel-btn:hover {
+      background-color: rgba(0,0,0,0.7);
+    }
+
+    .carousel-btn.prev {
+      left: 10px;
+    }
+
+    .carousel-btn.next {
+      right: 10px;
+    }
+
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+      gap: 8px;
+    }
+
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      background-color: #ccc;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .carousel-dot.active {
+      background-color: #28a745;
     }
 
     #productName {
       font-size: 2rem;
       margin-bottom: 10px;
       color: #212529;
+      font-weight: 700;
     }
 
     #productPrice {
@@ -76,10 +144,12 @@
       transition: background-color 0.3s ease;
       width: 100%;
     }
+
     #addToCart:hover {
       background-color: #1e7e34;
     }
 
+    /* WhatsApp floating button */
     .whatsapp-btn {
       position: fixed;
       bottom: 20px;
@@ -98,13 +168,16 @@
       transition: background-color 0.3s ease;
       text-decoration: none;
     }
+
     .whatsapp-btn:hover {
       background-color: #1da851;
     }
+
     .whatsapp-btn svg {
       width: 30px;
       height: 30px;
       stroke: white;
+      stroke-width: 2;
     }
   </style>
 </head>
@@ -112,7 +185,13 @@
   <a href="index.html" class="back-btn">← Seguir comprando</a>
 
   <main>
-    <img id="productImage" src="" alt="Imagen del producto" />
+    <div class="carousel-container">
+      <button class="carousel-btn prev" onclick="prevImage()">❮</button>
+      <div id="carouselSlide"></div>
+      <button class="carousel-btn next" onclick="nextImage()">❯</button>
+    </div>
+    <div class="carousel-dots" id="carouselDots"></div>
+
     <h2 id="productName"></h2>
     <p id="productPrice"></p>
     <p id="productDescription"></p>
@@ -128,21 +207,69 @@
   </a>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const product = JSON.parse(localStorage.getItem("currentProduct"));
-      if (product) {
-        document.getElementById("productName").innerText = product.name;
-        document.getElementById("productPrice").innerText = `$${product.price.toFixed(2)}`;
-        document.getElementById("productDescription").innerText = product.description || "";
-        document.getElementById("productImage").src = product.image || "";
-        document.getElementById("productImage").alt = product.name || "";
+    let currentIndex = 0;
+    let images = [];
 
-        document.getElementById("addToCart").addEventListener("click", () => {
-          let cart = JSON.parse(localStorage.getItem("cart")) || [];
-          cart.push(product);
-          localStorage.setItem("cart", JSON.stringify(cart));
-          alert("¡Agregado al carrito!");
+    function updateCarousel() {
+      const slide = document.getElementById('carouselSlide');
+      const dotsContainer = document.getElementById('carouselDots');
+      if (!images.length) return;
+
+      slide.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+      // actualizar los puntos
+      dotsContainer.innerHTML = '';
+      images.forEach((_, i) => {
+        const dot = document.createElement('span');
+        dot.className = 'carousel-dot' + (i === currentIndex ? ' active' : '');
+        dot.addEventListener('click', () => {
+          currentIndex = i;
+          updateCarousel();
         });
+        dotsContainer.appendChild(dot);
+      });
+    }
+
+    function prevImage() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      updateCarousel();
+    }
+
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % images.length;
+      updateCarousel();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const product = JSON.parse(localStorage.getItem('currentProduct'));
+      if (product) {
+        document.getElementById('productName').innerText = product.name || '';
+        document.getElementById('productPrice').innerText = `₲${product.price.toFixed(0)}`;
+        document.getElementById('productDescription').innerText = product.description || '';
+
+        images = Array.isArray(product.images) && product.images.length > 0
+          ? product.images
+          : (typeof product.image === 'string' ? [product.image] : []);
+
+        const slide = document.getElementById('carouselSlide');
+        slide.innerHTML = ''; // limpiar imágenes anteriores
+
+        images.forEach(src => {
+          const img = document.createElement('img');
+          img.src = src;
+          img.alt = product.name || 'Producto';
+          slide.appendChild(img);
+        });
+
+        currentIndex = 0;
+        updateCarousel();
+
+        document.getElementById('addToCart').onclick = () => {
+          let cart = JSON.parse(localStorage.getItem('cart')) || [];
+          cart.push(product);
+          localStorage.setItem('cart', JSON.stringify(cart));
+          alert('¡Agregado al carrito!');
+        };
       }
     });
   </script>
