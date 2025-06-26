@@ -1,19 +1,150 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Product Details</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Detalles del Producto</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0 15px 40px 15px;
+      color: #333;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin: 25px 0 10px 0;
+      color: #28a745;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .back-btn:hover {
+      color: #1e7e34;
+    }
+
+    main {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    #productImage {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    #productName {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: #212529;
+    }
+
+    #productPrice {
+      font-size: 1.5rem;
+      color: #28a745;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    #productDescription {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+
+    #addToCart {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 14px 30px;
+      border-radius: 25px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
+    #addToCart:hover {
+      background-color: #1e7e34;
+    }
+
+    .whatsapp-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #25D366;
+      color: white;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      z-index: 1000;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+    }
+    .whatsapp-btn:hover {
+      background-color: #1da851;
+    }
+    .whatsapp-btn svg {
+      width: 30px;
+      height: 30px;
+      stroke: white;
+    }
+  </style>
 </head>
 <body>
-  <a href="index.html" class="back-btn">← Continue Shopping</a>
+  <a href="index.html" class="back-btn">← Seguir comprando</a>
 
-  <main style="margin-top: 20px;">
+  <main>
+    <img id="productImage" src="" alt="Imagen del producto" />
     <h2 id="productName"></h2>
     <p id="productPrice"></p>
-    <button id="addToCart">Add to Cart</button>
+    <p id="productDescription"></p>
+    <button id="addToCart">Agregar al carrito</button>
   </main>
 
-  <script src="script.js"></script>
+  <a href="https://wa.me/595987420115" target="_blank" aria-label="Chatear en WhatsApp" class="whatsapp-btn">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+      <path d="M21 12.29c0-5.06-4.11-9.17-9.17-9.17A9.13 9.13 0 003.6 15.1l-1.11 4.07 4.16-1.09a9.14 9.14 0 004.58 1.2c.16 0 .31 0 .47-.01A9.18 9.18 0 0021 12.29z"></path>
+      <path d="M8.37 10.57a5.48 5.48 0 005.05 5.05"></path>
+    </svg>
+  </a>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const product = JSON.parse(localStorage.getItem("currentProduct"));
+      if (product) {
+        document.getElementById("productName").innerText = product.name;
+        document.getElementById("productPrice").innerText = `$${product.price.toFixed(2)}`;
+        document.getElementById("productDescription").innerText = product.description || "";
+        document.getElementById("productImage").src = product.image || "";
+        document.getElementById("productImage").alt = product.name || "";
+
+        document.getElementById("addToCart").addEventListener("click", () => {
+          let cart = JSON.parse(localStorage.getItem("cart")) || [];
+          cart.push(product);
+          localStorage.setItem("cart", JSON.stringify(cart));
+          alert("¡Agregado al carrito!");
+        });
+      }
+    });
+  </script>
 </body>
 </html>
