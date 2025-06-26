@@ -180,7 +180,7 @@ main {
 .carousel-container {
   position: relative;
   max-width: 100%;
-  height: 400px; /* fixed height for consistent image display */
+  height: 400px;
   margin-bottom: 20px;
   overflow: hidden;
   border-radius: 12px;
@@ -193,17 +193,18 @@ main {
   height: 100%;
   transition: transform 0.4s ease-in-out;
   will-change: transform;
-  width: 100%; /* default width to start */
+  width: 100%;
 }
 
 #carouselSlide img {
-  width: 100%; /* ensures each image fills container */
+  width: 100%;
   height: 100%;
   object-fit: contain;
   flex-shrink: 0;
   user-select: none;
   pointer-events: none;
 }
+
 /* Carousel buttons */
 .carousel-btn {
   position: absolute;
@@ -240,7 +241,6 @@ main {
   gap: 8px;
 }
 
-/* Individual dot */
 .carousel-dot {
   width: 10px;
   height: 10px;
@@ -402,10 +402,6 @@ main {
   margin-top: 15px;
 }
 
-.form-btn:hover {
-  background-color: #1e7e34;
-}
-
 /* WhatsApp floating button */
 .whatsapp-btn {
   position: fixed;
@@ -415,9 +411,9 @@ main {
   color: white;
   border: none;
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  font-size: 28px;
+  width: 60px !important;
+  height: 60px !important;
+  font-size: 28px !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -432,17 +428,20 @@ main {
 }
 
 .whatsapp-btn svg {
-  width: 30px;
-  height: 30px;
+  width: 30px !important;
+  height: 30px !important;
   stroke: white;
   stroke-width: 2;
 }
 
+/* Mobile Tweaks */
 @media (max-width: 480px) {
   .cart-container {
     max-width: 100%;
-    margin: 10px;
-    padding: 15px;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
   }
 
   #cartItems img {
@@ -460,7 +459,8 @@ main {
     font-size: 1.1rem;
   }
 
-  #clearCart, #checkoutBtn {
+  #clearCart,
+  #checkoutBtn {
     padding: 10px 20px;
     font-size: 1rem;
   }
@@ -468,5 +468,17 @@ main {
   .carousel-btn {
     font-size: 1.5rem;
     padding: 6px 10px;
+  }
+}
+
+@media (max-width: 400px) {
+  .whatsapp-btn {
+    width: 50px !important;
+    height: 50px !important;
+  }
+
+  .whatsapp-btn svg {
+    width: 24px !important;
+    height: 24px !important;
   }
 }
