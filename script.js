@@ -1,3 +1,11 @@
+function formatPrice(number) {
+  return number.toLocaleString('es-PY', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
+}
+
+// --- PRODUCT PAGE ---
 function viewProduct(name, price, images, description, id) {
   localStorage.setItem(
     "currentProduct",
@@ -7,11 +15,11 @@ function viewProduct(name, price, images, description, id) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // --- PRODUCT PAGE ---
+  // Product page elements
   const productNameEl = document.getElementById("productName");
   const productPriceEl = document.getElementById("productPrice");
   const productDescriptionEl = document.getElementById("productDescription");
-  const carouselSlide = document.getElementById("carouselSlide"); // assuming your carousel container
+  const carouselSlide = document.getElementById("carouselSlide");
   const dotsContainer = document.getElementById("carouselDots");
   const addToCartBtn = document.getElementById("addToCart");
   const prevBtn = document.getElementById("prevImage");
@@ -21,25 +29,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const product = JSON.parse(localStorage.getItem("currentProduct"));
     if (product) {
       productNameEl.innerText = product.name || "";
-      productPriceEl.innerText = `$${product.price.toFixed(2)}`;
+      productPriceEl.innerText = `₲${formatPrice(product.price)}`;
       if (productDescriptionEl) productDescriptionEl.innerText = product.description || "";
 
       let images = [];
       if (Array.isArray(product.images) && product.images.length > 0) {
         images = product.images;
       } else if (typeof product.image === "string" && product.image) {
-        images = [product.image]; // fallback
+        images = [product.image];
       }
 
       let currentImageIndex = 0;
 
-      // Clear existing images and dots, then build carousel images and dots
       function updateCarousel() {
-        // Clear old images & dots
         carouselSlide.innerHTML = "";
         dotsContainer.innerHTML = "";
 
-        // Create image elements with proper widths
         images.forEach((src, index) => {
           const img = document.createElement("img");
           img.src = src;
@@ -59,15 +64,12 @@ document.addEventListener("DOMContentLoaded", () => {
           dotsContainer.appendChild(dot);
         });
 
-        // Set carouselSlide width dynamically
         carouselSlide.style.width = `${images.length * 100}%`;
-
         slideToCurrentImage();
         updateDots();
       }
 
       function slideToCurrentImage() {
-        // Move carouselSlide to show current image
         carouselSlide.style.transform = `translateX(-${(currentImageIndex * 100) / images.length}%)`;
       }
 
@@ -77,7 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      // Prev/Next button event handlers
       if (prevBtn) {
         prevBtn.addEventListener("click", () => {
           currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
@@ -97,20 +98,19 @@ document.addEventListener("DOMContentLoaded", () => {
       updateCarousel();
 
       addToCartBtn.addEventListener("click", () => {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  // Create a new product object for the cart, without mutating original
-  const productForCart = {
-    ...product,
-    images: Array.isArray(product.images) && product.images.length > 0
-      ? product.images
-      : (product.image ? [product.image] : ["img/default-placeholder.png"])
-  };
+        const productForCart = {
+          ...product,
+          images: Array.isArray(product.images) && product.images.length > 0
+            ? product.images
+            : (product.image ? [product.image] : ["img/default-placeholder.png"])
+        };
 
-  cart.push(productForCart);
-  localStorage.setItem("cart", JSON.stringify(cart));
-  alert("¡Agregado al carrito!");
- });
+        cart.push(productForCart);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        alert("¡Agregado al carrito!");
+      });
     }
   }
 
@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const img = document.createElement("img");
         const firstImage = Array.isArray(item.images) ? item.images[0] : item.image;
-        img.src = firstImage || "img/default-placeholder.png"; // fallback image if missing
+        img.src = firstImage || "img/default-placeholder.png";
         img.alt = item.name;
         img.style.width = "60px";
         img.style.height = "60px";
@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const infoDiv = document.createElement("div");
         infoDiv.style.flexGrow = "1";
-        infoDiv.innerHTML = `<strong>${item.name}</strong><br>$${item.price.toFixed(2)} x ${item.quantity}`;
+        infoDiv.innerHTML = `<strong>${item.name}</strong><br>₲${formatPrice(item.price)} x ${item.quantity}`;
         li.appendChild(infoDiv);
 
         const decBtn = document.createElement("button");
@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
         cartList.appendChild(li);
       });
 
-      totalDisplay.textContent = `Total: $${total.toFixed(2)}`;
+      totalDisplay.textContent = `Total: ₲${formatPrice(total)}`;
     }
 
     function increaseQuantity(item) {
@@ -224,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .join(", ");
 
     if (checkoutTotal) {
-      checkoutTotal.textContent = `$${total.toFixed(2)}`;
+      checkoutTotal.textContent = `₲${formatPrice(total)}`;
     }
 
     if (paymentFormLink) {
