@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pagar</title>
+  <title>Pago Manual</title>
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
@@ -111,24 +111,29 @@
   </style>
 </head>
 <body>
-  <a href="cart.html" class="back-btn">← Volver al carrito</a>
+  <a href="cart.html" class="back-btn">← Volver al Carrito</a>
 
   <main>
     <h2>Pago Manual</h2>
-    <p><strong>Total:</strong> <span id="checkoutTotal">$0.00</span></p>
-    <p>Transferir el total a la cuenta:</p>
+    <p><strong>Total:</strong> <span id="checkoutTotal">₲0</span></p>
+    <p>Transferí el total a la cuenta:</p>
     <ul>
       <li><strong>Banco:</strong> Ueno Bank</li>
-      <li><strong>Alias CI:</strong> 5253486</li>
+      <li><strong>Cuenta:</strong> 5253486</li>
       <li><strong>Nombre:</strong> Matias Ferreira</li>
     </ul>
-    <p>Luego completar el formulario:</p>
+    <p>Luego completá el formulario:</p>
     <a
       id="paymentFormLink"
       href="#"
       target="_blank"
       class="form-btn"
-    >Abrir formulario de pago</a>
+    >Abrir Formulario de Pago</a>
+
+    <p style="margin-top: 20px; font-weight: 600; color: #28a745;">
+      Después de realizar la transferencia, completá el formulario, enviá ¡y listo! 🎉<br>
+      ¡Gracias por comprar en nuestra tienda!
+    </p>
   </main>
 
   <a
@@ -152,7 +157,7 @@
       const cart = JSON.parse(localStorage.getItem("cart")) || [];
       let total = 0;
 
-      // Agrupar productos por ID y contar cantidades
+      // Agrupar ítems por ID y contar cantidades
       const grouped = {};
       cart.forEach(item => {
         const key = item.id || item.name;
@@ -167,7 +172,7 @@
         .join(", ");
 
       if (checkoutTotal) {
-        checkoutTotal.textContent = `$${total.toFixed(2)}`;
+        checkoutTotal.textContent = `₲${total.toFixed(0)}`;
       }
 
       if (paymentFormLink) {
