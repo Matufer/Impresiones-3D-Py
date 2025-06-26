@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pago Manual</title>
+  <title>Checkout</title>
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
@@ -111,27 +111,27 @@
   </style>
 </head>
 <body>
-  <a href="cart.html" class="back-btn">← Volver al Carrito</a>
+  <a href="cart.html" class="back-btn">← Back to Cart</a>
 
   <main>
-    <h2>Pago Manual</h2>
-    <p><strong>Total:</strong> <span id="checkoutTotal">₲0</span></p>
-    <p>Transferí el total a la cuenta:</p>
+    <h2>Manual Payment</h2>
+    <p><strong>Total:</strong> <span id="checkoutTotal">$0.00</span></p>
+    <p>Transferir el total a la cuenta:</p>
     <ul>
       <li><strong>Banco:</strong> Ueno Bank</li>
-      <li><strong>Cuenta:</strong> 5253486</li>
+      <li><strong>Alais CI:</strong> 5253486</li>
       <li><strong>Nombre:</strong> Matias Ferreira</li>
     </ul>
-    <p>Luego completá el formulario:</p>
+    <p>Luego completar el formulario:</p>
     <a
       id="paymentFormLink"
       href="#"
       target="_blank"
       class="form-btn"
-    >Abrir Formulario de Pago</a>
+    >Open Payment Form</a>
 
     <p style="margin-top: 20px; font-weight: 600; color: #28a745;">
-      Después de realizar la transferencia, completá el formulario, enviá ¡y listo! 🎉<br>
+      Luego de realizar la transferencia, completá el formulario, envialo ¡y listo! 🎉<br>
       ¡Gracias por comprar en nuestra tienda!
     </p>
   </main>
@@ -139,7 +139,7 @@
   <a
     href="https://wa.me/595987420115"
     target="_blank"
-    aria-label="Chatear en WhatsApp"
+    aria-label="Chat on WhatsApp"
     class="whatsapp-btn"
   >
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
@@ -157,7 +157,7 @@
       const cart = JSON.parse(localStorage.getItem("cart")) || [];
       let total = 0;
 
-      // Agrupar ítems por ID y contar cantidades
+      // Group items by ID and count quantities
       const grouped = {};
       cart.forEach(item => {
         const key = item.id || item.name;
@@ -166,13 +166,13 @@
         total += item.price;
       });
 
-      // Formatear para Google Forms: p001 (x3), p002 (x1)
+      // Format for Google Forms: p001 (x3), p002 (x1)
       const formattedItems = Object.entries(grouped)
         .map(([id, count]) => `${id} (x${count})`)
         .join(", ");
 
       if (checkoutTotal) {
-        checkoutTotal.textContent = `₲${total.toFixed(0)}`;
+        checkoutTotal.textContent = `$${total.toFixed(2)}`;
       }
 
       if (paymentFormLink) {
