@@ -1,7 +1,7 @@
-function viewProduct(name, price, image, description, id) {
+function viewProduct(name, price, images, description, id) {
   localStorage.setItem(
     "currentProduct",
-    JSON.stringify({ name, price, image, description, id })
+    JSON.stringify({ name, price, images, description, id })
   );
   window.location.href = "product.html";
 }
@@ -11,28 +11,107 @@ document.addEventListener("DOMContentLoaded", () => {
   const productNameEl = document.getElementById("productName");
   const productPriceEl = document.getElementById("productPrice");
   const productDescriptionEl = document.getElementById("productDescription");
-  const productImageEl = document.getElementById("productImage");
+  const carouselSlide = document.getElementById("carouselSlide"); // assuming your carousel container
+  const dotsContainer = document.getElementById("carouselDots");
   const addToCartBtn = document.getElementById("addToCart");
+  const prevBtn = document.getElementById("prevImage");
+  const nextBtn = document.getElementById("nextImage");
 
-  if (productNameEl && productPriceEl && addToCartBtn) {
+  if (productNameEl && productPriceEl && addToCartBtn && carouselSlide) {
     const product = JSON.parse(localStorage.getItem("currentProduct"));
     if (product) {
       productNameEl.innerText = product.name || "";
       productPriceEl.innerText = `$${product.price.toFixed(2)}`;
       if (productDescriptionEl) productDescriptionEl.innerText = product.description || "";
-      if (productImageEl) {
-        productImageEl.src = product.image || "";
-        productImageEl.alt = product.name || "";
-      }
-    }
 
-    addToCartBtn.addEventListener("click", () => {
-      if (!product) return;
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      cart.push(product);
-      localStorage.setItem("cart", JSON.stringify(cart));
-      alert("Added to cart!");
-    });
+      let images = [];
+      if (Array.isArray(product.images) && product.images.length > 0) {
+        images = product.images;
+      } else if (typeof product.image === "string" && product.image) {
+        images = [product.image]; // fallback
+      }
+
+      let currentImageIndex = 0;
+
+      // Clear existing images and dots, then build carousel images and dots
+      function updateCarousel() {
+        // Clear old images & dots
+        carouselSlide.innerHTML = "";
+        dotsContainer.innerHTML = "";
+
+        // Create image elements with proper widths
+        images.forEach((src, index) => {
+          const img = document.createElement("img");
+          img.src = src;
+          img.alt = product.name || "";
+          img.style.width = "100%";
+          img.style.flexShrink = "0";
+          img.style.objectFit = "contain";
+          carouselSlide.appendChild(img);
+
+          const dot = document.createElement("button");
+          dot.className = index === currentImageIndex ? "active" : "";
+          dot.addEventListener("click", () => {
+            currentImageIndex = index;
+            slideToCurrentImage();
+            updateDots();
+          });
+          dotsContainer.appendChild(dot);
+        });
+
+        // Set carouselSlide width dynamically
+        carouselSlide.style.width = `${images.length * 100}%`;
+
+        slideToCurrentImage();
+        updateDots();
+      }
+
+      function slideToCurrentImage() {
+        // Move carouselSlide to show current image
+        carouselSlide.style.transform = `translateX(-${(currentImageIndex * 100) / images.length}%)`;
+      }
+
+      function updateDots() {
+        Array.from(dotsContainer.children).forEach((dot, i) => {
+          dot.classList.toggle("active", i === currentImageIndex);
+        });
+      }
+
+      // Prev/Next button event handlers
+      if (prevBtn) {
+        prevBtn.addEventListener("click", () => {
+          currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+          slideToCurrentImage();
+          updateDots();
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener("click", () => {
+          currentImageIndex = (currentImageIndex + 1) % images.length;
+          slideToCurrentImage();
+          updateDots();
+        });
+      }
+
+      updateCarousel();
+
+      addToCartBtn.addEventListener("click", () => {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // Create a new product object for the cart, without mutating original
+  const productForCart = {
+    ...product,
+    images: Array.isArray(product.images) && product.images.length > 0
+      ? product.images
+      : (product.image ? [product.image] : ["img/default-placeholder.png"])
+  };
+
+  cart.push(productForCart);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert("¡Agregado al carrito!");
+ });
+    }
   }
 
   // --- CART PAGE ---
@@ -68,16 +147,15 @@ document.addEventListener("DOMContentLoaded", () => {
         li.style.alignItems = "center";
         li.style.gap = "12px";
 
-        if (item.image) {
-          const img = document.createElement("img");
-          img.src = item.image;
-          img.alt = item.name;
-          img.style.width = "60px";
-          img.style.height = "60px";
-          img.style.objectFit = "cover";
-          img.style.borderRadius = "10px";
-          li.appendChild(img);
-        }
+        const img = document.createElement("img");
+        const firstImage = Array.isArray(item.images) ? item.images[0] : item.image;
+        img.src = firstImage || "img/default-placeholder.png"; // fallback image if missing
+        img.alt = item.name;
+        img.style.width = "60px";
+        img.style.height = "60px";
+        img.style.objectFit = "cover";
+        img.style.borderRadius = "10px";
+        li.appendChild(img);
 
         const infoDiv = document.createElement("div");
         infoDiv.style.flexGrow = "1";
@@ -87,17 +165,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const decBtn = document.createElement("button");
         decBtn.textContent = "−";
         decBtn.title = "Decrease quantity";
-        decBtn.onclick = () => {
-          decreaseQuantity(item);
-        };
+        decBtn.onclick = () => decreaseQuantity(item);
         li.appendChild(decBtn);
 
         const incBtn = document.createElement("button");
         incBtn.textContent = "+";
         incBtn.title = "Increase quantity";
-        incBtn.onclick = () => {
-          increaseQuantity(item);
-        };
+        incBtn.onclick = () => increaseQuantity(item);
         li.appendChild(incBtn);
 
         cartList.appendChild(li);
@@ -137,7 +211,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     let total = 0;
 
-    // Group by ID and count quantity
     const grouped = {};
     cart.forEach(item => {
       const key = item.id || item.name;
@@ -146,7 +219,6 @@ document.addEventListener("DOMContentLoaded", () => {
       total += item.price;
     });
 
-    // Format like: p001 (x3), p002 (x1)
     const formatted = Object.entries(grouped)
       .map(([id, qty]) => `${id} (x${qty})`)
       .join(", ");
@@ -162,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // --- INDEX PAGE (Search & Category Filter) ---
+  // --- SEARCH & CATEGORY ---
   const searchInput = document.getElementById("searchInput");
   if (searchInput) {
     searchInput.addEventListener("input", () => {
