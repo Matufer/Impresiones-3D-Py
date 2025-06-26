@@ -6,181 +6,36 @@
   <title>Tienda 3D</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f8f9fa;
-      margin: 0;
-      padding: 0;
-      color: #333;
-    }
-
-    header {
-      background-color: #28a745;
-      padding: 15px 30px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: white;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    .logo-text {
-      font-weight: 700;
-      font-size: 1.5rem;
-      letter-spacing: 2px;
-    }
-
-    .search-bar input {
-      padding: 8px 15px;
-      border-radius: 25px;
-      border: none;
-      width: 250px;
-      font-size: 1rem;
-      outline: none;
-    }
-
-    .cart-link svg {
-      width: 30px;
-      height: 30px;
-      stroke: white;
-      cursor: pointer;
-      transition: stroke 0.3s ease;
-    }
-    .cart-link svg:hover {
-      stroke: #cce5cc;
-    }
-
-    .category-filter {
-      margin: 20px auto;
-      max-width: 960px;
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-    }
-
-    .category-btn {
-      padding: 10px 25px;
-      background-color: #e9ecef;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      font-weight: 600;
-      color: #495057;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    .category-btn.active, .category-btn:hover {
-      background-color: #28a745;
-      color: white;
-    }
-
-    main.product-grid {
-      max-width: 960px;
-      margin: 0 auto 40px auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 25px;
-      padding: 0 15px;
-    }
-
-    .product-card {
-      background-color: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
-      padding: 15px;
-      text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .product-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
-    }
-
-    .product-card img {
-      max-width: 100%;
-      border-radius: 12px;
-      margin-bottom: 12px;
-    }
-
-    .product-card h3 {
-      margin: 10px 0 6px 0;
-      font-size: 1.15rem;
-      color: #212529;
-    }
-
-    .product-card p {
-      color: #28a745;
-      font-weight: 700;
-      font-size: 1.1rem;
-      margin: 0 0 15px 0;
-    }
-
-    .product-card button {
-      background-color: #28a745;
-      border: none;
-      color: white;
-      padding: 10px 18px;
-      border-radius: 25px;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: background-color 0.3s ease;
-      cursor: pointer;
-    }
-    .product-card button:hover {
-      background-color: #1e7e34;
-    }
-
-    .whatsapp-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #25D366;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      font-size: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-      z-index: 1000;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      text-decoration: none;
-    }
-
-    .whatsapp-btn:hover {
-      background-color: #1da851;
-    }
-
-    .whatsapp-btn svg {
-      width: 30px;
-      height: 30px;
-      stroke: white;
-    }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; margin: 0; padding: 0; color: #333; }
+    header { background-color: #28a745; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; color: white; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .logo-text { font-weight: 700; font-size: 1.5rem; letter-spacing: 2px; }
+    .search-bar input { padding: 8px 15px; border-radius: 25px; border: none; width: 250px; font-size: 1rem; outline: none; }
+    .cart-link svg { width: 30px; height: 30px; stroke: white; cursor: pointer; transition: stroke 0.3s ease; }
+    .cart-link svg:hover { stroke: #cce5cc; }
+    .category-filter { margin: 20px auto; max-width: 960px; display: flex; justify-content: center; gap: 15px; }
+    .category-btn { padding: 10px 25px; background-color: #e9ecef; border: none; border-radius: 25px; cursor: pointer; font-weight: 600; color: #495057; transition: background-color 0.3s ease, color 0.3s ease; }
+    .category-btn.active, .category-btn:hover { background-color: #28a745; color: white; }
+    main.product-grid { max-width: 960px; margin: 0 auto 40px auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; padding: 0 15px; }
+    .product-card { background-color: white; border-radius: 12px; box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12); padding: 15px; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; }
+    .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18); }
+    .product-card img { max-width: 100%; border-radius: 12px; margin-bottom: 12px; }
+    .product-card h3 { margin: 10px 0 6px 0; font-size: 1.15rem; color: #212529; }
+    .product-card p { color: #28a745; font-weight: 700; font-size: 1.1rem; margin: 0 0 15px 0; }
+    .product-card button { background-color: #28a745; border: none; color: white; padding: 10px 18px; border-radius: 25px; font-weight: 600; font-size: 1rem; transition: background-color 0.3s ease; cursor: pointer; }
+    .product-card button:hover { background-color: #1e7e34; }
+    .whatsapp-btn { position: fixed; bottom: 20px; right: 20px; background-color: #25D366; color: white; border: none; border-radius: 50%; width: 60px; height: 60px; font-size: 28px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); z-index: 1000; cursor: pointer; transition: background-color 0.3s ease; text-decoration: none; }
+    .whatsapp-btn:hover { background-color: #1da851; }
+    .whatsapp-btn svg { width: 30px; height: 30px; stroke: white; }
   </style>
 </head>
 <body>
   <header>
     <div class="logo-text">3DPy</div>
-
     <div class="search-bar">
       <input type="text" id="searchInput" placeholder="Buscar productos..." />
     </div>
-
     <a href="cart.html" class="cart-link" aria-label="Ver carrito">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
         <circle cx="9" cy="21" r="1"></circle>
         <circle cx="20" cy="21" r="1"></circle>
         <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" />
@@ -190,60 +45,51 @@
 
   <div class="category-filter">
     <button class="category-btn active" data-category="all">Todos</button>
-    <button class="category-btn" data-category="shoes">Zapatos</button>
-    <button class="category-btn" data-category="shirts">Remeras</button>
-    <button class="category-btn" data-category="hats">Gorras</button>
+    <button class="category-btn" data-category="Accesorios">Accesorios</button>
+    <button class="category-btn" data-category="Fantasia">Fantasía</button>
+    <button class="category-btn" data-category="Anime">Anime</button>
   </div>
 
   <main class="product-grid">
-    <div class="product-card" data-category="shoes">
-      <img src="https://via.placeholder.com/150" alt="Zapatilla para correr" />
-      <h3>Zapatilla para correr</h3>
-      <p>$49.99</p>
-      <button onclick="viewProduct('Zapatilla para correr', 49.99, 'https://via.placeholder.com/150', 'Zapatilla cómoda para correr.', 'p001')">Ver</button>
+    <div class="product-card" data-category="Accesorios">
+      <img src="images/pul1.PNG" alt="Llavero de Pulpo" />
+      <h3>Llavero de Pulpo</h3>
+      <p>₲35.000</p>
+      <button onclick="viewProduct('Llavero de Pulpo', 35000, ['images/pul1.PNG','images/pul2.PNG'], 'Llaveros de pulpos articulados de colores.', 'p001')">Ver</button>
     </div>
 
-    <div class="product-card" data-category="shirts">
-      <img src="https://via.placeholder.com/150" alt="Remera Cool" />
-      <h3>Remera Cool</h3>
-      <p>$19.99</p>
-      <button onclick="viewProduct('Remera Cool', 19.99, 'https://via.placeholder.com/150', 'Remera de algodón suave.', 'p002')">Ver</button>
+    <div class="product-card" data-category="Accesorios">
+      <img src="images/pulp1.PNG" alt="Llavero de Pulpo" />
+      <h3>Llavero de Pulpo</h3>
+      <p>₲40.000</p>
+      <button onclick="viewProduct('Llavero de Pulpo', 40000, ['images/pulp1.PNG','images/pulp2.PNG'], 'Llaveros de pulpos articulados de colores.', 'p002')">Ver</button>
     </div>
 
-    <div class="product-card" data-category="hats">
-      <img src="https://via.placeholder.com/150" alt="Gorra Estilosa" />
-      <h3>Gorra Estilosa</h3>
-      <p>$14.99</p>
-      <button onclick="viewProduct('Gorra Estilosa', 14.99, 'https://via.placeholder.com/150', 'Moderna y con estilo.', 'p003')">Ver</button>
+    <div class="product-card" data-category="Fantasia">
+      <img src="images/varh1.JPG" alt="Soporte de varitas" />
+      <h3>Soporte de Harry Potter con 5 Varitas</h3>
+      <p>₲330.000</p>
+      <button onclick="viewProduct('Soporte de Harry Potter con 5 Varitas', 330000, ['images/varh1.jpg','images/varh2.jpg','images/varh3.jpg','images/varh4.jpg'], 'Cinco Varitas de Harry Potter con Soporte de las reliquias de la muerte.', 'p003')">Ver</button>
     </div>
 
-    <div class="product-card" data-category="shoes">
-      <img src="https://via.placeholder.com/150" alt="Zapatilla Deportiva" />
-      <h3>Zapatilla Deportiva</h3>
-      <p>$59.99</p>
-      <button onclick="viewProduct('Zapatilla Deportiva', 59.99, 'https://via.placeholder.com/150', 'Zapatillas ligeras para deporte.', 'p004')">Ver</button>
+    <div class="product-card" data-category="Fantasia">
+      <img src="images/varhh1.jpg" alt="Varita" />
+      <h3>Varita de Harry Potter con Soporte</h3>
+      <p>₲125.000</p>
+      <button onclick="viewProduct('Varita de Harry Potter con Soporte', 125000, ['images/varhh1.jpg','images/varhh2.jpg','images/varhh3.jpg'], 'Varita de Harry Potter con Soporte.', 'p004')">Ver</button>
     </div>
   </main>
 
-  <a
-    href="https://wa.me/595987420115"
-    target="_blank"
-    aria-label="Chatear por WhatsApp"
-    class="whatsapp-btn"
-  >
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
-      stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+  <a href="https://wa.me/595987420115" target="_blank" aria-label="Chat en WhatsApp" class="whatsapp-btn">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
       <path d="M21 12.29c0-5.06-4.11-9.17-9.17-9.17A9.13 9.13 0 003.6 15.1l-1.11 4.07 4.16-1.09a9.14 9.14 0 004.58 1.2c.16 0 .31 0 .47-.01A9.18 9.18 0 0021 12.29z"></path>
       <path d="M8.37 10.57a5.48 5.48 0 005.05 5.05"></path>
     </svg>
   </a>
 
   <script>
-    function viewProduct(name, price, image, description, id) {
-      localStorage.setItem(
-        "currentProduct",
-        JSON.stringify({ name, price, image, description, id })
-      );
+    function viewProduct(name, price, images, description, id) {
+      localStorage.setItem("currentProduct", JSON.stringify({ name, price, images, description, id }));
       window.location.href = "product.html";
     }
 
