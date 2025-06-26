@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tienda 3D</title>
+  <title>3D Shop</title>
   <link rel="stylesheet" href="style.css" />
   <style>
+    /* Your original CSS remains unchanged */
     body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; margin: 0; padding: 0; color: #333; }
     header { background-color: #28a745; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; color: white; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
     .logo-text { font-weight: 700; font-size: 1.5rem; letter-spacing: 2px; }
@@ -32,9 +33,9 @@
   <header>
     <div class="logo-text">3DPy</div>
     <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="Buscar productos..." />
+      <input type="text" id="searchInput" placeholder="Search products..." />
     </div>
-    <a href="cart.html" class="cart-link" aria-label="Ver carrito">
+    <a href="cart.html" class="cart-link" aria-label="View Cart">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
         <circle cx="9" cy="21" r="1"></circle>
         <circle cx="20" cy="21" r="1"></circle>
@@ -44,43 +45,44 @@
   </header>
 
   <div class="category-filter">
-    <button class="category-btn active" data-category="all">Todos</button>
+    <button class="category-btn active" data-category="all">All</button>
     <button class="category-btn" data-category="Accesorios">Accesorios</button>
-    <button class="category-btn" data-category="Fantasia">Fantasía</button>
+    <button class="category-btn" data-category="Fantasia">Fantasia</button>
     <button class="category-btn" data-category="Anime">Anime</button>
   </div>
 
   <main class="product-grid">
     <div class="product-card" data-category="Accesorios">
       <img src="images/pul1.PNG" alt="Llavero de Pulpo" />
-      <h3>Llavero de Pulpo</h3>
-      <p>₲35,000</p>
-      <button onclick="viewProduct('Llavero de Pulpo', 35.000, ['images/pul1.PNG','images/pul2.PNG'], 'Llaveros de pulpos articulados de colores.', 'p001')">Ver</button>
+      <h3>LLavero de Pulpo</h3>
+      <p>₲35.000</p>
+      <button onclick="viewProduct('Llavero de Pulpo', 35000, ['images/pul1.PNG','images/pul2.PNG'], 'Llaveros de pulpos articulados de colores.', 'p001')">View</button>
     </div>
 
     <div class="product-card" data-category="Accesorios">
-      <img src="images/pulp1.PNG" alt="Llavero de Pulpo" />
-      <h3>Llavero de Pulpo</h3>
-      <p>₲40,000</p>
-      <button onclick="viewProduct('Llavero de Pulpo', 40.000, ['images/pulp1.PNG','images/pulp2.PNG'], 'Llaveros de pulpos articulados de colores.', 'p002')">Ver</button>
+      <img src="images/pulp1.PNG" alt="Cool T-Shirt" />
+      <h3>LLavero de Pulpo</h3>
+      <p>₲40.000</p>
+      <button onclick="viewProduct('Llavero de Pulpo', 40000, ['images/pulp1.PNG','images/pulp2.PNG'], 'Llaveros de pulpos articulados de colores.', 'p002')">View</button>
     </div>
 
     <div class="product-card" data-category="Fantasia">
-      <img src="images/varh1.JPG" alt="Soporte de varitas" />
+      <img src="images/varh1.JPG" alt="Stylish Cap" />
       <h3>Soporte de Harry Potter con 5 Varitas</h3>
-      <p>₲330,000</p>
-      <button onclick="viewProduct('Soporte de Harry Potter con 5 Varitas', 330.000, ['images/varh1.JPG','images/varh2.JPG','images/varh3.JPG','images/varh4.JPG'], 'Cinco Varitas de Harry Potter con Soporte de las reliquias de la muerte.', 'p003')">Ver</button>
+      <p>₲330.000</p>
+      <button onclick="viewProduct('Stylish Cap', 330000, ['images/varh1.jpg','images/varh2.jpg','images/varh3.jpg','images/varh4.jpg'], 'Cinco Varitas de Harry Potter con Soporte de las reliquias de la muerte.', 'p003')">View</button>
     </div>
 
     <div class="product-card" data-category="Fantasia">
-      <img src="images/varhh1.JPG" alt="Varita" />
+      <img src="images/varhh1.jpg" alt="Fantasia" />
       <h3>Varita de Harry Potter con Soporte</h3>
-      <p>₲125,000</p>
-      <button onclick="viewProduct('Varita de Harry Potter con Soporte', 125.000, ['images/varhh1.JPG','images/varhh2.JPG','images/varhh3.JPG'], 'Varita de Harry Potter con Soporte.', 'p004')">Ver</button>
+      <p>₲125.000</p>
+      <button onclick="viewProduct('Varita de Harry Potter con Soporte', 125000, ['images/varhh1.jpg','images/varhh2.jpg','images/varhh3.jpg'], 'Varita de Harry Potter con Soporte.', 'p004')">View</button>
     </div>
   </main>
 
-  <a href="https://wa.me/595987420115" target="_blank" aria-label="Chat en WhatsApp" class="whatsapp-btn">
+  <!-- WhatsApp floating button -->
+  <a href="https://wa.me/595987420115" target="_blank" aria-label="Chat on WhatsApp" class="whatsapp-btn">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
       <path d="M21 12.29c0-5.06-4.11-9.17-9.17-9.17A9.13 9.13 0 003.6 15.1l-1.11 4.07 4.16-1.09a9.14 9.14 0 004.58 1.2c.16 0 .31 0 .47-.01A9.18 9.18 0 0021 12.29z"></path>
       <path d="M8.37 10.57a5.48 5.48 0 005.05 5.05"></path>
