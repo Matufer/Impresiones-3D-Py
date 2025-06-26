@@ -22,8 +22,6 @@ button {
   border-radius: 5px;
   font-weight: 600;
   transition: background-color 0.3s ease;
-  font-size: 1.1rem;
-  padding: 10px 20px;
 }
 
 /* Header */
@@ -51,7 +49,7 @@ header {
 }
 
 .search-bar input {
-  padding: 10px 18px;
+  padding: 8px 15px;
   border-radius: 25px;
   border: none;
   width: 100%;
@@ -68,8 +66,8 @@ header {
 }
 
 .cart-link svg {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   stroke: white;
   stroke-width: 2.5;
 }
@@ -86,13 +84,12 @@ header {
   background-color: white;
   border: 2px solid #28a745;
   color: #28a745;
-  padding: 10px 18px;
+  padding: 8px 16px;
   border-radius: 25px;
   font-weight: 600;
   min-width: 90px;
   text-align: center;
   user-select: none;
-  font-size: 1rem;
 }
 
 .category-btn.active,
@@ -148,10 +145,9 @@ header {
 .product-card button {
   background-color: #28a745;
   color: white;
-  padding: 12px 0;
+  padding: 10px 0;
   border-radius: 25px;
   font-weight: 600;
-  font-size: 1.1rem;
 }
 
 .product-card button:hover {
@@ -166,17 +162,16 @@ header {
   font-weight: 600;
   color: #28a745;
   text-align: center;
-  font-size: 1.1rem;
 }
 
 /* PRODUCT PAGE */
 main {
-  max-width: 700px;
+  max-width: 600px;
   margin: 40px auto 60px auto;
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  padding: 30px;
+  padding: 25px;
   text-align: center;
   position: relative;
 }
@@ -185,27 +180,30 @@ main {
 .carousel-container {
   position: relative;
   max-width: 100%;
-  height: 400px;
+  height: 400px; /* fixed height for consistent image display */
   margin-bottom: 20px;
   overflow: hidden;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
+/* The sliding container holding images */
 #carouselSlide {
   display: flex;
   transition: transform 0.4s ease-in-out;
   height: 100%;
 }
 
+/* Each image inside carousel */
 #carouselSlide img {
   width: 100%;
   flex-shrink: 0;
   height: 100%;
-  object-fit: contain;
+  object-fit: contain; /* maintain aspect ratio without cropping */
   border-radius: 12px;
 }
 
+/* Carousel buttons */
 .carousel-btn {
   position: absolute;
   top: 50%;
@@ -213,11 +211,12 @@ main {
   background-color: rgba(0,0,0,0.5);
   color: white;
   border: none;
-  font-size: 2.2rem;
-  padding: 12px 18px;
+  font-size: 2rem;
+  padding: 10px 15px;
   cursor: pointer;
   z-index: 2;
   border-radius: 50%;
+  transition: background-color 0.3s ease;
 }
 
 .carousel-btn:hover {
@@ -232,6 +231,7 @@ main {
   right: 10px;
 }
 
+/* Carousel dots container */
 .carousel-dots {
   display: flex;
   justify-content: center;
@@ -239,18 +239,21 @@ main {
   gap: 8px;
 }
 
+/* Individual dot */
 .carousel-dot {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   background-color: #ccc;
   border-radius: 50%;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .carousel-dot.active {
   background-color: #28a745;
 }
 
+/* Other PRODUCT PAGE elements */
 #productName {
   font-size: 2rem;
   margin-bottom: 15px;
@@ -258,14 +261,14 @@ main {
 }
 
 #productPrice {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   color: #28a745;
   font-weight: 700;
   margin-bottom: 15px;
 }
 
 #productDescription {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #555;
   margin-bottom: 25px;
   line-height: 1.4;
@@ -274,10 +277,11 @@ main {
 #addToCart {
   background-color: #28a745;
   color: white;
-  padding: 16px 32px;
-  font-size: 1.2rem;
+  padding: 14px 30px;
+  font-size: 1.1rem;
   border-radius: 30px;
   font-weight: 700;
+  transition: background-color 0.3s ease;
 }
 
 #addToCart:hover {
@@ -286,8 +290,8 @@ main {
 
 /* CART PAGE */
 .cart-container {
-  max-width: 100%;
-  margin: 40px auto;
+  max-width: 700px;
+  margin: 40px auto 60px auto;
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -305,12 +309,11 @@ main {
   align-items: center;
   margin-bottom: 15px;
   gap: 12px;
-  font-size: 1.1rem;
 }
 
 #cartItems li img {
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   object-fit: cover;
   border-radius: 10px;
 }
@@ -323,16 +326,17 @@ main {
 #cartItems button {
   background-color: #28a745;
   color: white;
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   font-weight: 700;
   border-radius: 6px;
-  font-size: 1.3rem;
+  line-height: 20px;
   padding: 0;
+  user-select: none;
 }
 
 #totalPrice {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 20px;
   text-align: right;
@@ -341,14 +345,64 @@ main {
 #clearCart {
   background-color: #dc3545;
   color: white;
-  padding: 12px 24px;
+  padding: 10px 20px;
   border-radius: 25px;
   font-weight: 600;
-  font-size: 1.1rem;
+  border: none;
+  transition: background-color 0.3s ease;
 }
 
 #clearCart:hover {
   background-color: #a71d2a;
+}
+
+/* CHECKOUT PAGE */
+.checkout-container {
+  max-width: 600px;
+  margin: 40px auto 60px auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  text-align: center;
+}
+
+.checkout-container h2 {
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.checkout-container p {
+  font-size: 1rem;
+  margin: 8px 0;
+}
+
+.checkout-container ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-align: left;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.form-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 14px 35px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  margin-top: 15px;
+}
+
+.form-btn:hover {
+  background-color: #1e7e34;
 }
 
 /* WhatsApp floating button */
@@ -360,14 +414,16 @@ main {
   color: white;
   border: none;
   border-radius: 50%;
-  width: 70px;
-  height: 70px;
-  font-size: 32px;
+  width: 60px;
+  height: 60px;
+  font-size: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   z-index: 10000;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .whatsapp-btn:hover {
@@ -375,30 +431,32 @@ main {
 }
 
 .whatsapp-btn svg {
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   stroke: white;
   stroke-width: 2;
 }
 
 @media (max-width: 480px) {
   .cart-container {
-    padding: 20px;
+    max-width: 100%;
+    margin: 10px;
+    padding: 15px;
   }
 
-  #cartItems li img {
-    width: 60px;
-    height: 60px;
+  #cartItems img {
+    width: 50px;
+    height: 50px;
   }
 
   #cartItems button {
-    width: 32px;
-    height: 32px;
-    font-size: 1.1rem;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
   }
 
   #totalPrice {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
   #clearCart, #checkoutBtn {
@@ -408,16 +466,6 @@ main {
 
   .carousel-btn {
     font-size: 1.5rem;
-    padding: 8px 12px;
-  }
-
-  .whatsapp-btn {
-    width: 65px;
-    height: 65px;
-  }
-
-  .whatsapp-btn svg {
-    width: 32px;
-    height: 32px;
+    padding: 6px 10px;
   }
 }
