@@ -1,20 +1,148 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Shopping Cart</title>
+  <title>Carrito</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #28a745;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .cart-container {
+      background: white;
+      max-width: 700px;
+      margin: 0 auto;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    #cartItems {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+    #cartItems li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid #eee;
+      padding: 12px 0;
+    }
+    #cartItems img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    #cartItems div {
+      flex-grow: 1;
+    }
+    #cartItems button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 20px;
+      user-select: none;
+      transition: background-color 0.3s ease;
+    }
+    #cartItems button:hover {
+      background-color: #1e7e34;
+    }
+    #totalPrice {
+      font-weight: bold;
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+    }
+    #clearCart {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+      margin-right: 10px;
+    }
+    #clearCart:hover {
+      background-color: #a71d2a;
+    }
+    #checkoutBtn {
+      background-color: #28a745;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 25px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+    }
+    #checkoutBtn:hover {
+      background-color: #1e7e34;
+    }
+    .whatsapp-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #25D366;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .whatsapp-btn svg {
+      width: 30px;
+      height: 30px;
+      stroke: white;
+    }
+  </style>
 </head>
 <body>
-  <a href="index.html" class="back-btn">← Back to Home</a>
 
-  <main style="margin-top: 20px;">
-    <h2>Your Cart</h2>
+  <a href="index.html" class="back-btn">← Seguir comprando</a>
+
+  <main class="cart-container">
+    <h2>Tu Carrito</h2>
+
     <ul id="cartItems"></ul>
-    <p id="totalPrice"></p>
-    <button onclick="window.location.href='checkout.html'">Proceed to Checkout</button>
-    <button id="clearCart">Clear Cart</button>
+
+    <div id="totalPrice">Total: $0.00</div>
+
+    <button id="clearCart">Vaciar carrito</button>
+
+    <a href="checkout.html" class="form-btn" id="checkoutBtn">Proceder al pago</a>
   </main>
+
+  <a class="whatsapp-btn" href="https://wa.me/595987420115" target="_blank" aria-label="Chatear en WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+      <path d="M21 12.29c0-5.06-4.11-9.17-9.17-9.17A9.13 9.13 0 003.6 15.1l-1.11 4.07 4.16-1.09a9.14 9.14 0 004.58 1.2c.16 0 .31 0 .47-.01A9.18 9.18 0 0021 12.29z"></path>
+      <path d="M8.37 10.57a5.48 5.48 0 005.05 5.05"></path>
+    </svg>
+  </a>
 
   <script src="script.js"></script>
 </body>
