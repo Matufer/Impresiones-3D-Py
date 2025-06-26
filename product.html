@@ -193,7 +193,7 @@
     <div class="carousel-dots" id="carouselDots"></div>
 
     <h2 id="productName"></h2>
-    <p id="₲productPrice"></p>
+    <p id="productPrice"></p>
     <p id="productDescription"></p>
     <button id="addToCart">Agregar al carrito</button>
   </main>
@@ -217,7 +217,7 @@
 
       slide.style.transform = `translateX(-${currentIndex * 100}%)`;
 
-      // actualizar los puntos
+      // update dots
       dotsContainer.innerHTML = '';
       images.forEach((_, i) => {
         const dot = document.createElement('span');
@@ -244,7 +244,7 @@
       const product = JSON.parse(localStorage.getItem('currentProduct'));
       if (product) {
         document.getElementById('productName').innerText = product.name || '';
-        document.getElementById('productPrice').innerText = `₲${product.price.toFixed(0)}`;
+        document.getElementById('productPrice').innerText = `$${product.price.toFixed(2)}`;
         document.getElementById('productDescription').innerText = product.description || '';
 
         images = Array.isArray(product.images) && product.images.length > 0
@@ -252,7 +252,7 @@
           : (typeof product.image === 'string' ? [product.image] : []);
 
         const slide = document.getElementById('carouselSlide');
-        slide.innerHTML = ''; // limpiar imágenes anteriores
+        slide.innerHTML = ''; // clear previous images
 
         images.forEach(src => {
           const img = document.createElement('img');
