@@ -111,10 +111,10 @@
   </style>
 </head>
 <body>
-  <a href="cart.html" class="back-btn">← Back to Cart</a>
+  <a href="cart.html" class="back-btn">← Volver al Carrito</a>
 
   <main>
-    <h2>Manual Payment</h2>
+    <h2>Transferencia Bancaria</h2>
     <p><strong>Total:</strong> <span id="checkoutTotal">$0.00</span></p>
     <p>Transferir el total a la cuenta:</p>
     <ul>
@@ -128,7 +128,7 @@
       href="#"
       target="_blank"
       class="form-btn"
-    >Open Payment Form</a>
+    >Abrir Formulario de Pago</a>
 
     <p style="margin-top: 20px; font-weight: 600; color: #28a745;">
       Luego de realizar la transferencia, completá el formulario, envialo ¡y listo! 🎉<br>
@@ -171,9 +171,12 @@
         .map(([id, count]) => `${id} (x${count})`)
         .join(", ");
 
-      if (checkoutTotal) {
-        checkoutTotal.textContent = `$${total.toFixed(2)}`;
-      }
+        if (checkoutTotal) {
+  checkoutTotal.textContent = `₲${total.toLocaleString('en-US', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  })}`;
+}
 
       if (paymentFormLink) {
         const baseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfekmdBwfZJTPKkOqDsy0kKz3Fp7bfq649KP5-CB0wnNvcmQg/viewform";
