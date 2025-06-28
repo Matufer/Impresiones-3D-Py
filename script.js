@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const addToCartBtn = document.getElementById("addToCart");
   const prevBtn = document.querySelector(".carousel-btn.prev");
   const nextBtn = document.querySelector(".carousel-btn.next");
+  const goToCartBtn = document.getElementById("goToCartBtn");
 
   if (productNameEl && productPriceEl && addToCartBtn && carouselSlide) {
     const product = JSON.parse(localStorage.getItem("currentProduct"));
@@ -109,7 +110,17 @@ document.addEventListener("DOMContentLoaded", () => {
         cart.push(productForCart);
         localStorage.setItem("cart", JSON.stringify(cart));
         alert("¡Agregado al carrito!");
+
+        if (goToCartBtn) {
+          goToCartBtn.style.display = "block";
+        }
       });
+
+      if (goToCartBtn) {
+        goToCartBtn.addEventListener("click", () => {
+          window.location.href = "cart.html";
+        });
+      }
     }
   }
 
