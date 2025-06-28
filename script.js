@@ -22,8 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const carouselSlide = document.getElementById("carouselSlide");
   const dotsContainer = document.getElementById("carouselDots");
   const addToCartBtn = document.getElementById("addToCart");
-  const prevBtn = document.getElementById("prevImage");
-  const nextBtn = document.getElementById("nextImage");
+  const prevBtn = document.querySelector(".carousel-btn.prev");
+  const nextBtn = document.querySelector(".carousel-btn.next");
 
   if (productNameEl && productPriceEl && addToCartBtn && carouselSlide) {
     const product = JSON.parse(localStorage.getItem("currentProduct"));
@@ -54,8 +54,8 @@ document.addEventListener("DOMContentLoaded", () => {
           img.style.objectFit = "contain";
           carouselSlide.appendChild(img);
 
-          const dot = document.createElement("button");
-          dot.className = index === currentImageIndex ? "active" : "";
+          const dot = document.createElement("span");
+          dot.className = "carousel-dot" + (index === currentImageIndex ? " active" : "");
           dot.addEventListener("click", () => {
             currentImageIndex = index;
             slideToCurrentImage();
@@ -64,13 +64,12 @@ document.addEventListener("DOMContentLoaded", () => {
           dotsContainer.appendChild(dot);
         });
 
-        carouselSlide.style.width = `${images.length * 100}%`;
         slideToCurrentImage();
         updateDots();
       }
 
       function slideToCurrentImage() {
-        carouselSlide.style.transform = `translateX(-${(currentImageIndex * 100) / images.length}%)`;
+        carouselSlide.style.transform = `translateX(-${currentImageIndex * 100}%)`;
       }
 
       function updateDots() {
@@ -164,13 +163,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const decBtn = document.createElement("button");
         decBtn.textContent = "−";
-        decBtn.title = "Decrease quantity";
+        decBtn.title = "Disminuir cantidad";
         decBtn.onclick = () => decreaseQuantity(item);
         li.appendChild(decBtn);
 
         const incBtn = document.createElement("button");
         incBtn.textContent = "+";
-        incBtn.title = "Increase quantity";
+        incBtn.title = "Aumentar cantidad";
         incBtn.onclick = () => increaseQuantity(item);
         li.appendChild(incBtn);
 
