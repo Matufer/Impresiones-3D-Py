@@ -125,7 +125,7 @@
       line-height: 1.5;
     }
 
-    #addToCart {
+    #addToCart, #goToCartBtn {
       background-color: #28a745;
       color: white;
       border: none;
@@ -136,10 +136,15 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
       width: 100%;
+      margin-top: 10px;
     }
 
-    #addToCart:hover {
+    #addToCart:hover, #goToCartBtn:hover {
       background-color: #1e7e34;
+    }
+
+    #goToCartBtn {
+      display: none;
     }
 
     .whatsapp-btn {
@@ -187,6 +192,7 @@
     <p id="productPrice"></p>
     <p id="productDescription"></p>
     <button id="addToCart">Agregar al carrito</button>
+    <button id="goToCartBtn">Ir al carrito</button>
   </main>
 
   <a href="https://wa.me/595987420115" target="_blank" aria-label="Chatear en WhatsApp" class="whatsapp-btn">
@@ -199,11 +205,11 @@
 
   <script>
     function formatPrice(num) {
-  return "₲" + num.toLocaleString('en-US', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0
-  });
-}
+      return "₲" + num.toLocaleString('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      });
+    }
 
     let currentIndex = 0;
     let images = [];
@@ -261,11 +267,19 @@
         currentIndex = 0;
         updateCarousel();
 
-        document.getElementById('addToCart').onclick = () => {
+        const addToCartBtn = document.getElementById('addToCart');
+        const goToCartBtn = document.getElementById('goToCartBtn');
+
+        addToCartBtn.onclick = () => {
           let cart = JSON.parse(localStorage.getItem('cart')) || [];
           cart.push(product);
           localStorage.setItem('cart', JSON.stringify(cart));
           alert('¡Agregado al carrito!');
+          goToCartBtn.style.display = 'block';
+        };
+
+        goToCartBtn.onclick = () => {
+          window.location.href = 'cart.html';
         };
       }
     });
