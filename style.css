@@ -1,4 +1,6 @@
-/* General Styles */
+/* =========================================
+   ESTILOS GENERALES
+   ========================================= */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f5f7fa;
@@ -21,10 +23,12 @@ button {
   border: none;
   border-radius: 5px;
   font-weight: 600;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-/* Header */
+/* =========================================
+   HEADER & NAVEGACIÓN
+   ========================================= */
 header {
   background-color: #28a745;
   color: white;
@@ -34,6 +38,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .logo-text {
@@ -46,6 +51,8 @@ header {
   flex: 1 1 auto;
   margin: 0 15px;
   min-width: 0;
+  display: flex;
+  justify-content: center;
 }
 
 .search-bar input {
@@ -59,10 +66,9 @@ header {
   box-sizing: border-box;
 }
 
-@media (max-width: 480px) {
-  .search-bar input {
-    max-width: 150px;
-  }
+.cart-link {
+  display: flex;
+  align-items: center;
 }
 
 .cart-link svg {
@@ -70,14 +76,19 @@ header {
   height: 28px;
   stroke: white;
   stroke-width: 2.5;
+  fill: none;
 }
 
-/* Category Filter */
+/* =========================================
+   FILTROS DE CATEGORÍA
+   ========================================= */
 .category-filter {
   display: flex;
   justify-content: center;
   gap: 10px;
   margin: 20px 0;
+  flex-wrap: wrap;
+  padding: 0 10px;
 }
 
 .category-btn {
@@ -98,7 +109,9 @@ header {
   color: white;
 }
 
-/* Product Grid (Index) */
+/* =========================================
+   GRILLA DE PRODUCTOS (INDEX)
+   ========================================= */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -106,6 +119,7 @@ header {
   max-width: 1100px;
   margin: 0 auto 40px auto;
   padding: 0 15px;
+  align-items: stretch;
 }
 
 .product-card {
@@ -114,10 +128,15 @@ header {
   box-shadow: 0 3px 15px rgba(0,0,0,0.1);
   padding: 15px;
   text-align: center;
-  display: flex;
+  /* Crucial: El display debe ser flex para que la estructura no colapse */
+  display: flex !important; 
   flex-direction: column;
   transition: transform 0.2s ease;
+  min-height: 380px; 
 }
+
+/* Cuando el script oculta una card, usa inline style "display: none" 
+   que sobreescribe el !important de arriba si se maneja correctamente en JS */
 
 .product-card:hover {
   transform: translateY(-5px);
@@ -125,347 +144,240 @@ header {
 
 .product-card img {
   width: 100%;
-  height: 150px;
+  height: 180px;
   object-fit: cover;
   border-radius: 10px;
   margin-bottom: 15px;
+  flex-shrink: 0;
+}
+
+.product-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .product-card h3 {
   margin: 0 0 8px 0;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  color: #222;
 }
 
 .product-card p {
   font-weight: 700;
   color: #28a745;
-  margin-bottom: 15px;
+  margin: 5px 0 15px 0;
+  font-size: 1.2rem;
 }
 
-.product-card button {
+/* Botón "Ver" de la Card */
+.btn-ver {
   background-color: #28a745;
   color: white;
-  padding: 10px 0;
+  padding: 12px 0;
   border-radius: 25px;
-  font-weight: 600;
+  font-weight: 700;
+  width: 100%;
+  margin-top: auto; /* Empuja el botón al fondo de la card */
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
 }
 
-.product-card button:hover {
+.btn-ver:hover {
   background-color: #1e7e34;
 }
 
-/* Back Button */
-.back-btn {
-  display: block;
-  max-width: 140px;
-  margin: 20px auto;
-  font-weight: 600;
-  color: #28a745;
-  text-align: center;
-}
-
-/* PRODUCT PAGE */
-main {
+/* =========================================
+   PÁGINA DE DETALLE (PRODUCT PAGE)
+   ========================================= */
+.detail-main {
   max-width: 600px;
-  margin: 40px auto 60px auto;
+  margin: 20px auto 60px auto;
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   padding: 25px;
   text-align: center;
-  position: relative;
 }
 
-/* Carousel Container */
+.back-btn {
+  display: inline-block;
+  margin: 20px 0;
+  font-weight: 600;
+  color: #28a745;
+}
+
 .carousel-container {
   position: relative;
   max-width: 100%;
-  height: 400px; /* fixed height for consistent image display */
+  height: 350px;
   margin-bottom: 20px;
   overflow: hidden;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background: #f9f9f9;
 }
 
-/* The sliding container holding images */
 #carouselSlide {
   display: flex;
-  transition: transform 0.4s ease-in-out;
+  transition: transform 0.4s cubic-bezier(0.45, 0.05, 0.55, 0.95);
   height: 100%;
 }
 
-/* Each image inside carousel */
 #carouselSlide img {
   width: 100%;
   flex-shrink: 0;
   height: 100%;
-  object-fit: contain; /* maintain aspect ratio without cropping */
-  border-radius: 12px;
+  object-fit: contain;
 }
 
-/* Carousel buttons */
 .carousel-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(40, 167, 69, 0.7);
   color: white;
-  border: none;
-  font-size: 2rem;
-  padding: 10px 15px;
-  cursor: pointer;
-  z-index: 2;
+  width: 40px;
+  height: 40px;
+  font-size: 1.2rem;
+  z-index: 10;
   border-radius: 50%;
-  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.carousel-btn:hover {
-  background-color: rgba(0,0,0,0.7);
-}
+.carousel-btn:hover { background-color: rgba(30, 126, 52, 0.9); }
+.carousel-btn.prev { left: 10px; }
+.carousel-btn.next { right: 10px; }
 
-.carousel-btn.prev {
-  left: 10px;
-}
-
-.carousel-btn.next {
-  right: 10px;
-}
-
-/* Carousel dots container */
 .carousel-dots {
   display: flex;
   justify-content: center;
-  margin-top: 10px;
+  margin-bottom: 20px;
   gap: 8px;
 }
 
-/* Individual dot */
 .carousel-dot {
   width: 10px;
   height: 10px;
-  background-color: #ccc;
+  background-color: #ddd;
   border-radius: 50%;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background 0.3s;
 }
 
-.carousel-dot.active {
-  background-color: #28a745;
-}
+.carousel-dot.active { background-color: #28a745; }
 
-/* Other PRODUCT PAGE elements */
-#productName {
-  font-size: 2rem;
-  margin-bottom: 15px;
-  font-weight: 700;
-}
-
-#productPrice {
-  font-size: 1.5rem;
-  color: #28a745;
-  font-weight: 700;
-  margin-bottom: 15px;
-}
-
-#productDescription {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 25px;
-  line-height: 1.4;
-}
+#productName { font-size: 1.8rem; margin: 10px 0; color: #222; }
+#productPrice { font-size: 1.5rem; color: #28a745; font-weight: 800; margin-bottom: 15px; }
+#productDescription { color: #555; line-height: 1.6; margin-bottom: 25px; text-align: left; }
 
 #addToCart {
   background-color: #28a745;
   color: white;
-  padding: 14px 30px;
+  padding: 15px 40px;
   font-size: 1.1rem;
   border-radius: 30px;
-  font-weight: 700;
-  transition: background-color 0.3s ease;
+  width: 100%;
+  max-width: 300px;
 }
 
-#addToCart:hover {
-  background-color: #1e7e34;
+#goToCartBtn {
+  background-color: #f8f9fa;
+  color: #28a745;
+  border: 2px solid #28a745;
+  margin-top: 10px;
+  padding: 12px 30px;
+  border-radius: 30px;
+  display: none; /* Se activa por JS */
+  width: 100%;
+  max-width: 300px;
 }
 
-/* CART PAGE */
-.cart-container {
+/* =========================================
+   CARRITO & CHECKOUT
+   ========================================= */
+.cart-container, .checkout-container {
   max-width: 700px;
-  margin: 40px auto 60px auto;
+  margin: 40px auto;
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   padding: 25px;
 }
 
-#cartItems {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 20px 0;
-}
-
-#cartItems li {
+.cart-item {
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
-  gap: 12px;
-}
-
-#cartItems li img {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-#cartItems li div {
-  flex-grow: 1;
-  font-weight: 600;
-}
-
-#cartItems button {
-  background-color: #28a745;
-  color: white;
-  width: 28px;
-  height: 28px;
-  font-weight: 700;
-  border-radius: 6px;
-  line-height: 20px;
-  padding: 0;
-  user-select: none;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
 }
 
 #totalPrice {
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin-bottom: 20px;
+  font-size: 1.5rem;
+  font-weight: 800;
   text-align: right;
+  margin: 25px 0;
+  color: #222;
 }
 
-#clearCart {
-  background-color: #dc3545;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 25px;
-  font-weight: 600;
-  border: none;
-  transition: background-color 0.3s ease;
+.cart-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
-#clearCart:hover {
-  background-color: #a71d2a;
-}
+#clearCart { background-color: #dc3545; color: white; padding: 12px 25px; }
+#clearCart:hover { background-color: #a71d2a; }
 
-/* CHECKOUT PAGE */
-.checkout-container {
-  max-width: 600px;
-  margin: 40px auto 60px auto;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  text-align: center;
-}
-
-.checkout-container h2 {
-  font-weight: 700;
-  margin-bottom: 20px;
-}
-
-.checkout-container p {
-  font-size: 1rem;
-  margin: 8px 0;
-}
-
-.checkout-container ul {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 20px;
-  font-weight: 600;
-  text-align: left;
-  max-width: 300px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.form-btn {
-  background-color: #28a745;
-  color: white;
-  padding: 14px 35px;
-  border-radius: 30px;
-  font-weight: 700;
-  font-size: 1.1rem;
-  display: inline-block;
-  transition: background-color 0.3s ease;
-  text-decoration: none;
-  margin-top: 15px;
-}
-
-.form-btn:hover {
-  background-color: #1e7e34;
-}
-
-/* WhatsApp floating button */
+/* =========================================
+   BOTÓN FLOTANTE WHATSAPP
+   ========================================= */
 .whatsapp-btn {
   position: fixed;
   bottom: 20px;
   right: 20px;
   background-color: #25D366;
-  color: white;
-  border: none;
-  border-radius: 50%;
   width: 60px;
   height: 60px;
-  font-size: 28px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  z-index: 10000;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.whatsapp-btn:hover {
-  background-color: #1da851;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  z-index: 9999;
 }
 
 .whatsapp-btn svg {
-  width: 30px;
-  height: 30px;
-  stroke: white;
-  stroke-width: 2;
+  width: 32px;
+  height: 32px;
+  fill: white;
 }
 
+/* =========================================
+   RESPONSIVE (MÓVIL)
+   ========================================= */
 @media (max-width: 480px) {
-  .cart-container {
-    max-width: 100%;
-    margin: 10px;
-    padding: 15px;
+  header { padding: 10px 15px; }
+  .logo-text { font-size: 1.3rem; }
+  .search-bar input { max-width: 130px; font-size: 0.9rem; }
+
+  .product-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    padding: 0 10px;
   }
 
-  #cartItems img {
-    width: 50px;
-    height: 50px;
+  .product-card {
+    min-height: 340px;
+    padding: 10px;
   }
 
-  #cartItems button {
-    width: 28px;
-    height: 28px;
-    font-size: 18px;
-  }
-
-  #totalPrice {
-    font-size: 1.1rem;
-  }
-
-  #clearCart, #checkoutBtn {
-    padding: 10px 20px;
-    font-size: 1rem;
-  }
-
-  .carousel-btn {
-    font-size: 1.5rem;
-    padding: 6px 10px;
-  }
+  .product-card img { height: 140px; }
+  .product-card h3 { font-size: 1rem; }
+  
+  .carousel-container { height: 280px; }
+  #productName { font-size: 1.5rem; }
 }
