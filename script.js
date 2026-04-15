@@ -1,3 +1,4 @@
+// --- UTILIDADES ---
 function formatPrice(number) {
   return number.toLocaleString('es-PY', {
     minimumFractionDigits: 0,
@@ -5,268 +6,219 @@ function formatPrice(number) {
   });
 }
 
-// --- PRODUCT PAGE ---
-function viewProduct(name, price, images, description, id) {
-  localStorage.setItem(
-    "currentProduct",
-    JSON.stringify({ name, price, images, description, id })
-  );
+// --- NAVEGACIÓN A PRODUCTO ---
+function viewProduct(product) {
+  localStorage.setItem("currentProduct", JSON.stringify(product));
   window.location.href = "product.html";
 }
 
+// --- FUNCIÓN DE FILTRADO UNIFICADA ---
+function aplicarFiltros() {
+  const searchInput = document.getElementById("searchInput");
+  const term = searchInput ? searchInput.value.toLowerCase().trim() : "";
+  
+  const btnActivo = document.querySelector(".category-btn.active");
+  const selectedCategory = btnActivo ? btnActivo.dataset.category : "all";
+
+  const cards = document.querySelectorAll(".product-card");
+
+  cards.forEach(card => {
+    const name = card.querySelector("h3").innerText.toLowerCase();
+    const category = card.dataset.category;
+
+    const coincideNombre = name.includes(term);
+    const coincideCat = (selectedCategory === "all" || category === selectedCategory);
+
+    // Forzamos el display usando setProperty para asegurar que 'important' del CSS se respete o se sobreescriba
+    if (coincideNombre && coincideCat) {
+      card.style.setProperty('display', 'flex', 'important');
+    } else {
+      card.style.setProperty('display', 'none', 'important');
+    }
+  });
+}
+
+// --- CARGA DEL CATÁLOGO DESDE JSON ---
+async function cargarCatalogo() {
+  const grid = document.querySelector(".product-grid");
+  if (!grid) return; 
+
+  try {
+    const response = await fetch("productos.json");
+    if (!response.ok) throw new Error("No se pudo cargar productos.json");
+    
+    const productos = await response.json();
+    grid.innerHTML = ""; 
+
+    productos.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.dataset.category = p.category;
+      
+      const mainImg = p.images && p.images[0] ? p.images[0] : 'images/placeholder.jpg';
+      const stockAvailable = p.stock !== undefined ? p.stock : "Consultar";
+
+      card.innerHTML = `
+        <img src="${mainImg}" alt="${p.name}" />
+        <div class="product-info">
+          <h3>${p.name}</h3>
+          <p>₲${formatPrice(p.price)}</p>
+          <p style="font-size: 0.85rem; color: #000; font-weight: bold; margin-bottom: 15px;">Disponible: ${stockAvailable}</p>
+        </div>
+        <button type="button" class="btn-ver">Ver</button>
+      `;
+
+      // Evento de click al botón
+      card.querySelector(".btn-ver").onclick = () => viewProduct(p);
+      
+      grid.appendChild(card);
+    });
+
+    // Aplicar filtros inmediatamente después de cargar por si hay algo en el buscador
+    aplicarFiltros();
+
+  } catch (e) {
+    console.error("Error cargando el catálogo:", e);
+    grid.innerHTML = `<p style="color:red; grid-column: 1/-1; text-align:center;">Error al cargar productos.</p>`;
+  }
+}
+
+// --- LÓGICA PRINCIPAL AL CARGAR EL DOM ---
 document.addEventListener("DOMContentLoaded", () => {
-  // Product page elements
-  const productNameEl = document.getElementById("productName");
-  const productPriceEl = document.getElementById("productPrice");
-  const productDescriptionEl = document.getElementById("productDescription");
-  const carouselSlide = document.getElementById("carouselSlide");
-  const dotsContainer = document.getElementById("carouselDots");
-  const addToCartBtn = document.getElementById("addToCart");
-  const prevBtn = document.querySelector(".carousel-btn.prev");
-  const nextBtn = document.querySelector(".carousel-btn.next");
-  const goToCartBtn = document.getElementById("goToCartBtn");
+  
+  // 1. Iniciar carga de catálogo
+  cargarCatalogo();
 
-  if (productNameEl && productPriceEl && addToCartBtn && carouselSlide) {
-    const product = JSON.parse(localStorage.getItem("currentProduct"));
-    if (product) {
-      productNameEl.innerText = product.name || "";
-      productPriceEl.innerText = `₲${formatPrice(product.price)}`;
-      if (productDescriptionEl) productDescriptionEl.innerText = product.description || "";
-
-      let images = [];
-      if (Array.isArray(product.images) && product.images.length > 0) {
-        images = product.images;
-      } else if (typeof product.image === "string" && product.image) {
-        images = [product.image];
-      }
-
-      let currentImageIndex = 0;
-
-      function updateCarousel() {
-        carouselSlide.innerHTML = "";
-        dotsContainer.innerHTML = "";
-
-        images.forEach((src, index) => {
-          const img = document.createElement("img");
-          img.src = src;
-          img.alt = product.name || "";
-          img.style.width = "100%";
-          img.style.flexShrink = "0";
-          img.style.objectFit = "contain";
-          carouselSlide.appendChild(img);
-
-          const dot = document.createElement("span");
-          dot.className = "carousel-dot" + (index === currentImageIndex ? " active" : "");
-          dot.addEventListener("click", () => {
-            currentImageIndex = index;
-            slideToCurrentImage();
-            updateDots();
-          });
-          dotsContainer.appendChild(dot);
-        });
-
-        slideToCurrentImage();
-        updateDots();
-      }
-
-      function slideToCurrentImage() {
-        carouselSlide.style.transform = `translateX(-${currentImageIndex * 100}%)`;
-      }
-
-      function updateDots() {
-        Array.from(dotsContainer.children).forEach((dot, i) => {
-          dot.classList.toggle("active", i === currentImageIndex);
-        });
-      }
-
-      if (prevBtn) {
-        prevBtn.addEventListener("click", () => {
-          currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-          slideToCurrentImage();
-          updateDots();
-        });
-      }
-
-      if (nextBtn) {
-        nextBtn.addEventListener("click", () => {
-          currentImageIndex = (currentImageIndex + 1) % images.length;
-          slideToCurrentImage();
-          updateDots();
-        });
-      }
-
-      updateCarousel();
-
-      addToCartBtn.addEventListener("click", () => {
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-        const productForCart = {
-          ...product,
-          images: Array.isArray(product.images) && product.images.length > 0
-            ? product.images
-            : (product.image ? [product.image] : ["img/default-placeholder.png"])
-        };
-
-        cart.push(productForCart);
-        localStorage.setItem("cart", JSON.stringify(cart));
-        alert("¡Agregado al carrito!");
-
-        if (goToCartBtn) {
-          goToCartBtn.style.display = "block";
-        }
-      });
-
-      if (goToCartBtn) {
-        goToCartBtn.addEventListener("click", () => {
-          window.location.href = "cart.html";
-        });
-      }
-    }
-  }
-
-  // --- CART PAGE ---
-  const cartList = document.getElementById("cartItems");
-  const totalDisplay = document.getElementById("totalPrice");
-  const clearBtn = document.getElementById("clearCart");
-
-  if (cartList && totalDisplay) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    function groupCartItems(cart) {
-      const grouped = {};
-      cart.forEach(item => {
-        const key = item.id || item.name;
-        if (!grouped[key]) {
-          grouped[key] = { ...item, quantity: 0 };
-        }
-        grouped[key].quantity++;
-      });
-      return Object.values(grouped);
-    }
-
-    function renderCart() {
-      cartList.innerHTML = "";
-      const groupedItems = groupCartItems(cart);
-      let total = 0;
-
-      groupedItems.forEach(item => {
-        total += item.price * item.quantity;
-
-        const li = document.createElement("li");
-        li.style.display = "flex";
-        li.style.alignItems = "center";
-        li.style.gap = "12px";
-
-        const img = document.createElement("img");
-        const firstImage = Array.isArray(item.images) ? item.images[0] : item.image;
-        img.src = firstImage || "img/default-placeholder.png";
-        img.alt = item.name;
-        img.style.width = "60px";
-        img.style.height = "60px";
-        img.style.objectFit = "cover";
-        img.style.borderRadius = "10px";
-        li.appendChild(img);
-
-        const infoDiv = document.createElement("div");
-        infoDiv.style.flexGrow = "1";
-        infoDiv.innerHTML = `<strong>${item.name}</strong><br>₲${formatPrice(item.price)} x ${item.quantity}`;
-        li.appendChild(infoDiv);
-
-        const decBtn = document.createElement("button");
-        decBtn.textContent = "−";
-        decBtn.title = "Disminuir cantidad";
-        decBtn.onclick = () => decreaseQuantity(item);
-        li.appendChild(decBtn);
-
-        const incBtn = document.createElement("button");
-        incBtn.textContent = "+";
-        incBtn.title = "Aumentar cantidad";
-        incBtn.onclick = () => increaseQuantity(item);
-        li.appendChild(incBtn);
-
-        cartList.appendChild(li);
-      });
-
-      totalDisplay.textContent = `Total: ₲${formatPrice(total)}`;
-    }
-
-    function increaseQuantity(item) {
-      cart.push({ ...item });
-      localStorage.setItem("cart", JSON.stringify(cart));
-      renderCart();
-    }
-
-    function decreaseQuantity(item) {
-      const index = cart.findIndex(c => (c.id ? c.id === item.id : c.name === item.name));
-      if (index > -1) {
-        cart.splice(index, 1);
-        localStorage.setItem("cart", JSON.stringify(cart));
-        renderCart();
-      }
-    }
-
-    clearBtn?.addEventListener("click", () => {
-      localStorage.removeItem("cart");
-      cart = [];
-      renderCart();
-    });
-
-    renderCart();
-  }
-
-  // --- CHECKOUT PAGE ---
-  const paymentFormLink = document.getElementById("paymentFormLink");
-  const checkoutTotal = document.getElementById("checkoutTotal");
-  if (paymentFormLink || checkoutTotal) {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let total = 0;
-
-    const grouped = {};
-    cart.forEach(item => {
-      const key = item.id || item.name;
-      if (!grouped[key]) grouped[key] = 0;
-      grouped[key]++;
-      total += item.price;
-    });
-
-    const formatted = Object.entries(grouped)
-      .map(([id, qty]) => `${id} (x${qty})`)
-      .join(", ");
-
-    if (checkoutTotal) {
-      checkoutTotal.textContent = `₲${formatPrice(total)}`;
-    }
-
-    if (paymentFormLink) {
-      const baseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfekmdBwfZJTPKkOqDsy0kKz3Fp7bfq649KP5-CB0wnNvcmQg/viewform";
-      const entryId = "930752464";
-      paymentFormLink.href = `${baseUrl}?usp=pp_url&entry.${entryId}=${encodeURIComponent(formatted)}`;
-    }
-  }
-
-  // --- SEARCH & CATEGORY ---
+  // 2. Configurar Buscador
   const searchInput = document.getElementById("searchInput");
   if (searchInput) {
-    searchInput.addEventListener("input", () => {
-      const term = searchInput.value.toLowerCase();
-      document.querySelectorAll(".product-card").forEach(card => {
-        const name = card.querySelector("h3").innerText.toLowerCase();
-        card.style.display = name.includes(term) ? "block" : "none";
-      });
-    });
+    searchInput.addEventListener("input", aplicarFiltros);
   }
 
+  // 3. Configurar Botones de Categoría
   const categoryButtons = document.querySelectorAll(".category-btn");
   categoryButtons.forEach(button => {
     button.addEventListener("click", () => {
       categoryButtons.forEach(btn => btn.classList.remove("active"));
       button.classList.add("active");
-      const selected = button.dataset.category;
-      document.querySelectorAll(".product-card").forEach(card => {
-        const category = card.dataset.category;
-        card.style.display = selected === "all" || category === selected ? "block" : "none";
-      });
-      if (searchInput) searchInput.value = "";
+      aplicarFiltros();
     });
   });
+
+  // 4. PÁGINA DE DETALLE (product.html)
+  const productNameEl = document.getElementById("productName");
+  if (productNameEl) {
+    const product = JSON.parse(localStorage.getItem("currentProduct"));
+    if (product) {
+      document.getElementById("productPrice").innerText = `₲${formatPrice(product.price)}`;
+      productNameEl.innerText = product.name;
+      
+      const descEl = document.getElementById("productDescription");
+      if (descEl) {
+        const baseDesc = product.description || "Sin descripción disponible.";
+        const stockHTML = product.stock !== undefined 
+          ? `<br><br><strong class="stock-display">Disponible: ${product.stock}</strong>` 
+          : "";
+        descEl.innerHTML = baseDesc + stockHTML;
+      }
+
+      // Carrusel
+      const carouselSlide = document.getElementById("carouselSlide");
+      const dotsContainer = document.getElementById("carouselDots");
+      const images = Array.isArray(product.images) ? product.images : ['images/placeholder.jpg'];
+      let currentIdx = 0;
+
+      function move() {
+        carouselSlide.style.transform = `translateX(-${currentIdx * 100}%)`;
+        if (dotsContainer) {
+          Array.from(dotsContainer.children).forEach((dot, i) => {
+            dot.classList.toggle("active", i === currentIdx);
+          });
+        }
+      }
+
+      images.forEach((src, index) => {
+        const img = document.createElement("img");
+        img.src = src;
+        carouselSlide.appendChild(img);
+
+        if (dotsContainer) {
+          const dot = document.createElement("span");
+          dot.className = "carousel-dot" + (index === 0 ? " active" : "");
+          dot.onclick = () => { currentIdx = index; move(); };
+          dotsContainer.appendChild(dot);
+        }
+      });
+
+      document.querySelector(".carousel-btn.prev").onclick = () => { 
+        currentIdx = (currentIdx - 1 + images.length) % images.length; 
+        move(); 
+      };
+      document.querySelector(".carousel-btn.next").onclick = () => { 
+        currentIdx = (currentIdx + 1) % images.length; 
+        move(); 
+      };
+
+      // Carrito
+      const addBtn = document.getElementById("addToCart");
+      if (addBtn) {
+        addBtn.onclick = () => {
+          let cart = JSON.parse(localStorage.getItem("cart")) || [];
+          cart.push(product);
+          localStorage.setItem("cart", JSON.stringify(cart));
+          alert("¡Producto agregado!");
+          document.getElementById("goToCartBtn").style.display = "block";
+        };
+      }
+      
+      const goToCart = document.getElementById("goToCartBtn");
+      if (goToCart) goToCart.onclick = () => window.location.href = 'cart.html';
+    }
+  }
+
+  // 5. PÁGINA DEL CARRITO (cart.html)
+  const cartList = document.getElementById("cartItems");
+  const totalDisplay = document.getElementById("totalPrice");
+  if (cartList && totalDisplay) {
+    function renderCart() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cartList.innerHTML = "";
+      let total = 0;
+      const grouped = {};
+
+      cart.forEach(item => {
+        const key = item.id || item.name;
+        if (!grouped[key]) grouped[key] = { ...item, qty: 0 };
+        grouped[key].qty++;
+      });
+
+      Object.values(grouped).forEach(item => {
+        total += item.price * item.qty;
+        const li = document.createElement("li");
+        li.className = "cart-item"; 
+        li.innerHTML = `
+          <div style="display:flex; align-items:center; gap:15px; width:100%;">
+            <img src="${item.images[0] || 'images/placeholder.jpg'}" style="width:60px; height:60px; object-fit:cover; border-radius:8px;">
+            <div style="flex-grow:1;">
+              <div style="font-weight:bold;">${item.name}</div>
+              <div style="color:#666;">${item.qty} un. x ₲${formatPrice(item.price)}</div>
+            </div>
+            <div style="font-weight:bold; color:#28a745;">₲${formatPrice(item.price * item.qty)}</div>
+          </div>
+        `;
+        cartList.appendChild(li);
+      });
+      totalDisplay.textContent = `Total: ₲${formatPrice(total)}`;
+    }
+
+    const clearBtn = document.getElementById("clearCart");
+    if (clearBtn) clearBtn.onclick = () => { 
+      if(confirm("¿Vaciar el carrito?")) {
+        localStorage.removeItem("cart"); 
+        renderCart(); 
+      }
+    };
+
+    renderCart();
+  }
 });
