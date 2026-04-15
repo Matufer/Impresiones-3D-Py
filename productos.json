@@ -1,0 +1,119 @@
+[
+  {
+    "id": "p015",
+    "name": "Llavero de Furia Nocturna",
+    "price": 25000,
+    "images": ["images/fur1.jpg", "images/fur2.jpg"],
+    "description": "LLavero de Furia Nocturna y Furia Luminosa.",
+    "category": "Accesorios",
+    "stock": 8
+  },
+  {
+    "id": "p002",
+    "name": "LLavero de Pulpo",
+    "price": 30000,
+    "images": ["images/pulp1.jpg", "images/pulp2.jpg"],
+    "description": "Llaveros de pulpos articulados de colores.",
+    "category": "Accesorios",
+    "stock": 12
+  },
+  {
+    "id": "p012",
+    "name": "Lapicero de Capibara Rosa",
+    "price": 45000,
+    "images": ["images/capy1.jpg", "images/capy2.jpg"],
+    "description": "Lapicero con forma de Capibara color rosado.",
+    "category": "Accesorios",
+    "stock": 5
+  },
+  {
+    "id": "p015-alt",
+    "name": "Llavero de Furia Nocturna (Variante)",
+    "price": 30000,
+    "images": ["images/fury1.jpg", "images/fury2.jpg", "images/fury3.jpg"],
+    "description": "LLavero de Furia Nocturna y Furia Luminosa.",
+    "category": "Accesorios",
+    "stock": 3
+  },
+  {
+    "id": "p011",
+    "name": "Lapicero de Capibara",
+    "price": 45000,
+    "images": ["images/capyl1.jpg", "images/capyl2.jpg"],
+    "description": "Lapicero con forma de Capibara.",
+    "category": "Accesorios",
+    "stock": 9
+  },
+  {
+    "id": "p001",
+    "name": "LLavero de Pulpo (Articulado)",
+    "price": 30000,
+    "images": ["images/pul1.jpg", "images/pul2.jpg"],
+    "description": "Llaveros de pulpos articulados de colores.",
+    "category": "Accesorios",
+    "stock": 11
+  },
+  {
+    "id": "p007",
+    "name": "LLavero de Batman",
+    "price": 30000,
+    "images": ["images/bat1.jpg"],
+    "description": "Llaveros de Batman.",
+    "category": "Accesorios",
+    "stock": 6
+  },
+  {
+    "id": "p008",
+    "name": "Varitas de Harry Potter",
+    "price": 100000,
+    "images": ["images/varp1.jpg", "images/varp2.jpg"],
+    "description": "Varitas de Harry Potter, hay de diferentes personajes.",
+    "category": "Fantasia",
+    "stock": 4
+  },
+  {
+    "id": "p002-dup",
+    "name": "LLavero de Pulpo (Classic)",
+    "price": 30000,
+    "images": ["images/pulp1.jpg", "images/pulp2.jpg"],
+    "description": "Llaveros de pulpos articulados de colores.",
+    "category": "Accesorios",
+    "stock": 7
+  },
+  {
+    "id": "p013",
+    "name": "Lapicero de Gato",
+    "price": 45000,
+    "images": ["images/gat1.jpg", "images/gat2.jpg"],
+    "description": "Lapicero con forma de Gato.",
+    "category": "Accesorios",
+    "stock": 10
+  },
+  {
+    "id": "p003",
+    "name": "Soporte de Harry Potter con 5 Varitas",
+    "price": 330000,
+    "images": ["images/varh1.jpg", "images/varh2.jpg", "images/varh3.jpg", "images/varh4.jpg"],
+    "description": "Cinco Varitas de Harry Potter con Soporte de las reliquias de la muerte.",
+    "category": "Fantasia",
+    "stock": 2
+  },
+  {
+    "id": "p0323",
+    "name": "Hulk con textura crochet",
+    "price": 60000,
+    "images": ["images/h1.png", "images/h2.jpg", "images/h3.jpg"],
+    "description": "Hulk con textura de crochet 10cm de altura",
+    "category": "Fantasia",
+    "stock": 6
+  },
+  {
+    "id": "p004",
+    "name": "Varita de Harry Potter con Soporte",
+    "price": 125000,
+    "images": ["images/varhh1.jpg", "images/varhh2.jpg", "images/varhh3.jpg"],
+    "description": "Varita de Harry Potter con Soporte.",
+    "category": "Fantasia",
+    "stock": 5
+  }
+]
