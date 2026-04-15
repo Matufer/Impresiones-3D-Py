@@ -22,20 +22,26 @@ function aplicarFiltros() {
 
   const cards = document.querySelectorAll(".product-card");
 
-  cards.forEach(card => {
+  // --- DENTRO DE aplicarFiltros() ---
+cards.forEach(card => {
     const name = card.querySelector("h3").innerText.toLowerCase();
-    const category = card.dataset.category;
+    
+    // Usamos || "" para que si no hay categoría, no tire error el .includes
+    const category = (card.dataset.category || "").toLowerCase();
+    const term = searchInput.value.toLowerCase().trim();
+    const selectedCategory = btnActivo ? btnActivo.dataset.category.toLowerCase() : "all";
 
     const coincideNombre = name.includes(term);
-    const coincideCat = (selectedCategory === "all" || category === selectedCategory);
+    
+    // Lógica mejorada:
+    const coincideCat = (selectedCategory === "all" || category.includes(selectedCategory));
 
-    // Forzamos el display usando setProperty para asegurar que 'important' del CSS se respete o se sobreescriba
     if (coincideNombre && coincideCat) {
-      card.style.setProperty('display', 'flex', 'important');
+        card.style.setProperty('display', 'flex', 'important');
     } else {
-      card.style.setProperty('display', 'none', 'important');
+        card.style.setProperty('display', 'none', 'important');
     }
-  });
+});
 }
 
 // --- CARGA DEL CATÁLOGO DESDE JSON ---
@@ -179,35 +185,71 @@ document.addEventListener("DOMContentLoaded", () => {
   // 5. PÁGINA DEL CARRITO (cart.html)
   const cartList = document.getElementById("cartItems");
   const totalDisplay = document.getElementById("totalPrice");
+  
   if (cartList && totalDisplay) {
+    // Función para cambiar cantidad (+ o -)
+    window.cambiarCantidad = function(key, delta) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      
+      if (delta === 1) {
+        // Encontrar el primer item con ese ID/Nombre y duplicarlo
+        const item = cart.find(i => (i.id || i.name) === key);
+        if (item) cart.push({...item});
+      } else {
+        // Encontrar el índice del último item con ese ID/Nombre y sacarlo
+        const idx = cart.findLastIndex(i => (i.id || i.name) === key);
+        if (idx !== -1) cart.splice(idx, 1);
+      }
+      
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+    };
+
     function renderCart() {
       const cart = JSON.parse(localStorage.getItem("cart")) || [];
       cartList.innerHTML = "";
       let total = 0;
       const grouped = {};
 
+      // Agrupar productos por ID o Nombre
       cart.forEach(item => {
         const key = item.id || item.name;
         if (!grouped[key]) grouped[key] = { ...item, qty: 0 };
         grouped[key].qty++;
       });
 
-      Object.values(grouped).forEach(item => {
-        total += item.price * item.qty;
+      const itemsSorteados = Object.values(grouped);
+
+      if (itemsSorteados.length === 0) {
+        cartList.innerHTML = "<p style='text-align:center; padding:20px;'>El carrito está vacío.</p>";
+      }
+
+      itemsSorteados.forEach(item => {
+        const key = item.id || item.name;
+        const subtotal = item.price * item.qty;
+        total += subtotal;
+
         const li = document.createElement("li");
         li.className = "cart-item"; 
         li.innerHTML = `
-          <div style="display:flex; align-items:center; gap:15px; width:100%;">
+          <div style="display:flex; align-items:center; gap:15px; width:100%; padding:10px 0;">
             <img src="${item.images[0] || 'images/placeholder.jpg'}" style="width:60px; height:60px; object-fit:cover; border-radius:8px;">
             <div style="flex-grow:1;">
               <div style="font-weight:bold;">${item.name}</div>
-              <div style="color:#666;">${item.qty} un. x ₲${formatPrice(item.price)}</div>
+              <div style="color:#666;">₲${formatPrice(item.price)} c/u</div>
+              
+              <div style="display:flex; align-items:center; gap:10px; margin-top:5px;">
+                <button onclick="cambiarCantidad('${key}', -1)" style="padding:2px 8px; background:#eee; border-radius:4px;">-</button>
+                <span style="font-weight:bold;">${item.qty}</span>
+                <button onclick="cambiarCantidad('${key}', 1)" style="padding:2px 8px; background:#eee; border-radius:4px;">+</button>
+              </div>
             </div>
-            <div style="font-weight:bold; color:#28a745;">₲${formatPrice(item.price * item.qty)}</div>
+            <div style="font-weight:bold; color:#28a745;">₲${formatPrice(subtotal)}</div>
           </div>
         `;
         cartList.appendChild(li);
       });
+
       totalDisplay.textContent = `Total: ₲${formatPrice(total)}`;
     }
 
