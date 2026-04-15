@@ -183,11 +183,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 5. PÁGINA DEL CARRITO (cart.html)
+  // 5. PÁGINA DEL CARRITO (cart.html)
   const cartList = document.getElementById("cartItems");
   const totalDisplay = document.getElementById("totalPrice");
   const checkoutBtn = document.getElementById("checkoutBtn");
   
   if (cartList && totalDisplay) {
+    // Función para cambiar cantidad (+ o -)
     window.cambiarCantidad = function(key, delta) {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
       if (delta === 1) {
@@ -220,14 +222,14 @@ document.addEventListener("DOMContentLoaded", () => {
         cartList.innerHTML = "<p style='text-align:center; padding:20px;'>El carrito está vacío.</p>";
         if (checkoutBtn) {
           checkoutBtn.onclick = (e) => {
-            e.preventDefault();
-            alert("Tu carrito está vacío. Agrega productos para continuar.");
+            e.preventDefault(); // Evita que navegue a checkout.html
+            alert("Tu carrito está vacío. Agregá productos para continuar.");
           };
           checkoutBtn.style.opacity = "0.5";
         }
       } else {
         if (checkoutBtn) {
-          checkoutBtn.onclick = null; // Quita el bloqueo si hay items
+          checkoutBtn.onclick = null; // Permite el paso normal
           checkoutBtn.style.opacity = "1";
         }
       }
@@ -244,12 +246,12 @@ document.addEventListener("DOMContentLoaded", () => {
             <img src="${item.images[0] || 'images/placeholder.jpg'}" style="width:50px; height:50px; object-fit:cover; border-radius:8px;">
             <div style="flex-grow:1; min-width: 0;">
               <div style="font-weight:bold; font-size:0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.name}</div>
-              <div style="color:#666; font-size:0.8rem;">₲${formatPrice(item.price)}</div>
+              <div style="color:#666; font-size:0.8rem;">₲${formatPrice(item.price)} c/u</div>
               
               <div style="display:flex; align-items:center; gap:12px; margin-top:5px;">
-                <button onclick="cambiarCantidad('${key}', -1)" style="width:28px; height:28px; background:#e0e0e0; border:none; border-radius:4px; font-weight:bold;">-</button>
+                <button onclick="cambiarCantidad('${key}', -1)" style="width:30px; height:30px; background:#28a745; color:white; border:none; border-radius:4px; font-weight:bold; cursor:pointer;">-</button>
                 <span style="font-weight:bold; font-size:1rem;">${item.qty}</span>
-                <button onclick="cambiarCantidad('${key}', 1)" style="width:28px; height:28px; background:#e0e0e0; border:none; border-radius:4px; font-weight:bold;">+</button>
+                <button onclick="cambiarCantidad('${key}', 1)" style="width:30px; height:30px; background:#28a745; color:white; border:none; border-radius:4px; font-weight:bold; cursor:pointer;">+</button>
               </div>
             </div>
             <div style="font-weight:bold; color:#28a745; font-size:0.9rem; white-space: nowrap;">₲${formatPrice(subtotal)}</div>
