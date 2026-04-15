@@ -9,6 +9,15 @@
     "stock": 8
   },
   {
+    "id": "p0323",
+    "name": "Hulk con textura crochet",
+    "price": 60000,
+    "images": ["images/h1.png", "images/h2.jpg", "images/h3.jpg"],
+    "description": "Hulk con textura de crochet 10cm de altura",
+    "category": "Superheroes",
+    "stock": 6
+  },
+  {
     "id": "p002",
     "name": "LLavero de Pulpo",
     "price": 30000,
@@ -59,7 +68,7 @@
     "price": 30000,
     "images": ["images/bat1.jpg"],
     "description": "Llaveros de Batman.",
-    "category": "Accesorios",
+    "category": "Accesorios Superheroes",
     "stock": 6
   },
   {
@@ -97,15 +106,6 @@
     "description": "Cinco Varitas de Harry Potter con Soporte de las reliquias de la muerte.",
     "category": "Fantasia",
     "stock": 2
-  },
-  {
-    "id": "p0323",
-    "name": "Hulk con textura crochet",
-    "price": 60000,
-    "images": ["images/h1.png", "images/h2.jpg", "images/h3.jpg"],
-    "description": "Hulk con textura de crochet 10cm de altura",
-    "category": "Fantasia",
-    "stock": 6
   },
   {
     "id": "p004",
