@@ -185,22 +185,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // 5. PÁGINA DEL CARRITO (cart.html)
   const cartList = document.getElementById("cartItems");
   const totalDisplay = document.getElementById("totalPrice");
+  const checkoutBtn = document.getElementById("checkoutBtn");
   
   if (cartList && totalDisplay) {
-    // Función para cambiar cantidad (+ o -)
     window.cambiarCantidad = function(key, delta) {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      
       if (delta === 1) {
-        // Encontrar el primer item con ese ID/Nombre y duplicarlo
         const item = cart.find(i => (i.id || i.name) === key);
         if (item) cart.push({...item});
       } else {
-        // Encontrar el índice del último item con ese ID/Nombre y sacarlo
         const idx = cart.findLastIndex(i => (i.id || i.name) === key);
         if (idx !== -1) cart.splice(idx, 1);
       }
-      
       localStorage.setItem("cart", JSON.stringify(cart));
       renderCart();
     };
@@ -211,7 +207,6 @@ document.addEventListener("DOMContentLoaded", () => {
       let total = 0;
       const grouped = {};
 
-      // Agrupar productos por ID o Nombre
       cart.forEach(item => {
         const key = item.id || item.name;
         if (!grouped[key]) grouped[key] = { ...item, qty: 0 };
@@ -220,8 +215,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const itemsSorteados = Object.values(grouped);
 
+      // --- BLOQUEO DEL BOTÓN DE PAGO ---
       if (itemsSorteados.length === 0) {
         cartList.innerHTML = "<p style='text-align:center; padding:20px;'>El carrito está vacío.</p>";
+        if (checkoutBtn) {
+          checkoutBtn.onclick = (e) => {
+            e.preventDefault();
+            alert("Tu carrito está vacío. Agrega productos para continuar.");
+          };
+          checkoutBtn.style.opacity = "0.5";
+        }
+      } else {
+        if (checkoutBtn) {
+          checkoutBtn.onclick = null; // Quita el bloqueo si hay items
+          checkoutBtn.style.opacity = "1";
+        }
       }
 
       itemsSorteados.forEach(item => {
@@ -232,19 +240,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const li = document.createElement("li");
         li.className = "cart-item"; 
         li.innerHTML = `
-          <div style="display:flex; align-items:center; gap:15px; width:100%; padding:10px 0;">
-            <img src="${item.images[0] || 'images/placeholder.jpg'}" style="width:60px; height:60px; object-fit:cover; border-radius:8px;">
-            <div style="flex-grow:1;">
-              <div style="font-weight:bold;">${item.name}</div>
-              <div style="color:#666;">₲${formatPrice(item.price)} c/u</div>
+          <div style="display:flex; align-items:center; gap:10px; width:100%; padding:10px 0; border-bottom: 1px solid #eee;">
+            <img src="${item.images[0] || 'images/placeholder.jpg'}" style="width:50px; height:50px; object-fit:cover; border-radius:8px;">
+            <div style="flex-grow:1; min-width: 0;">
+              <div style="font-weight:bold; font-size:0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.name}</div>
+              <div style="color:#666; font-size:0.8rem;">₲${formatPrice(item.price)}</div>
               
-              <div style="display:flex; align-items:center; gap:10px; margin-top:5px;">
-                <button onclick="cambiarCantidad('${key}', -1)" style="padding:2px 8px; background:#eee; border-radius:4px;">-</button>
-                <span style="font-weight:bold;">${item.qty}</span>
-                <button onclick="cambiarCantidad('${key}', 1)" style="padding:2px 8px; background:#eee; border-radius:4px;">+</button>
+              <div style="display:flex; align-items:center; gap:12px; margin-top:5px;">
+                <button onclick="cambiarCantidad('${key}', -1)" style="width:28px; height:28px; background:#e0e0e0; border:none; border-radius:4px; font-weight:bold;">-</button>
+                <span style="font-weight:bold; font-size:1rem;">${item.qty}</span>
+                <button onclick="cambiarCantidad('${key}', 1)" style="width:28px; height:28px; background:#e0e0e0; border:none; border-radius:4px; font-weight:bold;">+</button>
               </div>
             </div>
-            <div style="font-weight:bold; color:#28a745;">₲${formatPrice(subtotal)}</div>
+            <div style="font-weight:bold; color:#28a745; font-size:0.9rem; white-space: nowrap;">₲${formatPrice(subtotal)}</div>
           </div>
         `;
         cartList.appendChild(li);
