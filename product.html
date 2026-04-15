@@ -123,6 +123,16 @@
       color: #555;
       margin-bottom: 25px;
       line-height: 1.5;
+      white-space: pre-wrap;
+      text-align: center;
+    }
+
+    .stock-display {
+      display: block;
+      color: #000;
+      font-weight: 700;
+      margin-top: 10px;
+      text-align: center;
     }
 
     #addToCart, #goToCartBtn {
@@ -182,15 +192,15 @@
 
   <main>
     <div class="carousel-container">
-      <button class="carousel-btn prev" onclick="prevImage()">❮</button>
+      <button class="carousel-btn prev">❮</button>
       <div id="carouselSlide"></div>
-      <button class="carousel-btn next" onclick="nextImage()">❯</button>
+      <button class="carousel-btn next">❯</button>
     </div>
     <div class="carousel-dots" id="carouselDots"></div>
 
     <h2 id="productName"></h2>
     <p id="productPrice"></p>
-    <p id="productDescription"></p>
+    <div id="productDescription"></div>
     <button id="addToCart">Agregar al carrito</button>
     <button id="goToCartBtn">Ir al carrito</button>
   </main>
@@ -203,86 +213,6 @@
     </svg>
   </a>
 
-  <script>
-    function formatPrice(num) {
-      return "₲" + num.toLocaleString('en-US', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-      });
-    }
-
-    let currentIndex = 0;
-    let images = [];
-
-    function updateCarousel() {
-      const slide = document.getElementById('carouselSlide');
-      const dotsContainer = document.getElementById('carouselDots');
-      if (!images.length) return;
-
-      slide.style.transform = `translateX(-${currentIndex * 100}%)`;
-
-      dotsContainer.innerHTML = '';
-      images.forEach((_, i) => {
-        const dot = document.createElement('span');
-        dot.className = 'carousel-dot' + (i === currentIndex ? ' active' : '');
-        dot.addEventListener('click', () => {
-          currentIndex = i;
-          updateCarousel();
-        });
-        dotsContainer.appendChild(dot);
-      });
-    }
-
-    function prevImage() {
-      currentIndex = (currentIndex - 1 + images.length) % images.length;
-      updateCarousel();
-    }
-
-    function nextImage() {
-      currentIndex = (currentIndex + 1) % images.length;
-      updateCarousel();
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const product = JSON.parse(localStorage.getItem('currentProduct'));
-      if (product) {
-        document.getElementById('productName').innerText = product.name || '';
-        document.getElementById('productPrice').innerText = formatPrice(product.price);
-        document.getElementById('productDescription').innerText = product.description || '';
-
-        images = Array.isArray(product.images) && product.images.length > 0
-          ? product.images
-          : (typeof product.image === 'string' ? [product.image] : []);
-
-        const slide = document.getElementById('carouselSlide');
-        slide.innerHTML = '';
-
-        images.forEach(src => {
-          const img = document.createElement('img');
-          img.src = src;
-          img.alt = product.name || 'Producto';
-          slide.appendChild(img);
-        });
-
-        currentIndex = 0;
-        updateCarousel();
-
-        const addToCartBtn = document.getElementById('addToCart');
-        const goToCartBtn = document.getElementById('goToCartBtn');
-
-        addToCartBtn.onclick = () => {
-          let cart = JSON.parse(localStorage.getItem('cart')) || [];
-          cart.push(product);
-          localStorage.setItem('cart', JSON.stringify(cart));
-          alert('¡Agregado al carrito!');
-          goToCartBtn.style.display = 'block';
-        };
-
-        goToCartBtn.onclick = () => {
-          window.location.href = 'cart.html';
-        };
-      }
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
