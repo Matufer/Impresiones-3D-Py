@@ -74,26 +74,42 @@ async function cargarCatalogo() {
         <button type="button" class="btn-ver">Ver</button>
       `;
 
-      // Evento de click al botón
       card.querySelector(".btn-ver").onclick = () => viewProduct(p);
-      
       grid.appendChild(card);
     });
 
-    // Aplicar filtros inmediatamente después de cargar por si hay algo en el buscador
+    // Aplicar filtros por si el usuario ya escribió algo antes de que cargue el JSON
     aplicarFiltros();
+
+    return true; // <--- AGREGA ESTO: Indica que la carga terminó con éxito
 
   } catch (e) {
     console.error("Error cargando el catálogo:", e);
     grid.innerHTML = `<p style="color:red; grid-column: 1/-1; text-align:center;">Error al cargar productos.</p>`;
+    return false; // <--- Indica que hubo un error
   }
 }
 
 // --- LÓGICA PRINCIPAL AL CARGAR EL DOM ---
 document.addEventListener("DOMContentLoaded", () => {
   
-  // 1. Iniciar carga de catálogo
-  cargarCatalogo();
+  // 1. Iniciar carga de catálogo y aplicar filtro de URL al terminar
+  cargarCatalogo().then(() => {
+    // ESTO LEE EL LINK (Ej: ?cat=Superheroes)
+    const urlParams = new URLSearchParams(window.location.search);
+    const catDesdeUrl = urlParams.get('cat');
+
+    if (catDesdeUrl) {
+      const botones = document.querySelectorAll(".category-btn");
+      botones.forEach(btn => {
+        if (btn.dataset.category.toLowerCase() === catDesdeUrl.toLowerCase()) {
+          botones.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          aplicarFiltros();
+        }
+      });
+    }
+  });
 
   // 2. Configurar Buscador
   const searchInput = document.getElementById("searchInput");
@@ -101,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
     searchInput.addEventListener("input", aplicarFiltros);
   }
 
-  // 3. Configurar Botones de Categoría
+  // 3. Configurar Botones de Categoría (Para que sigan funcionando los clics)
   const categoryButtons = document.querySelectorAll(".category-btn");
   categoryButtons.forEach(button => {
     button.addEventListener("click", () => {
@@ -110,6 +126,8 @@ document.addEventListener("DOMContentLoaded", () => {
       aplicarFiltros();
     });
   });
+
+  // (Acá abajo sigue tu código de la sección 4 y 5...)
 
   // 4. PÁGINA DE DETALLE (product.html)
   const productNameEl = document.getElementById("productName");
