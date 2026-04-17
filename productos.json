@@ -12,7 +12,7 @@
     "id": "p0323",
     "name": "Hulk con textura crochet",
     "price": 60000,
-    "images": ["images/h1.png", "images/h2.jpg", "images/h3.jpg"],
+    "images": ["images/h1.png", "images/h2.png", "images/h3.png"],
     "description": "Hulk con textura de crochet 10cm de altura",
     "category": "Superheroes",
     "stock": 6
