@@ -94,17 +94,23 @@ async function cargarCatalogo() {
 document.addEventListener("DOMContentLoaded", () => {
   
   // 1. Iniciar carga de catálogo y aplicar filtro de URL al terminar
+  // 1. Iniciar carga de catálogo y aplicar filtro de URL al terminar
   cargarCatalogo().then(() => {
-    // ESTO LEE EL LINK (Ej: ?cat=Superheroes)
     const urlParams = new URLSearchParams(window.location.search);
     const catDesdeUrl = urlParams.get('cat');
 
     if (catDesdeUrl) {
+      // Limpiamos el buscador si entramos por un link directo de categoría
+      const searchInput = document.getElementById("searchInput");
+      if (searchInput) searchInput.value = "";
+
       const botones = document.querySelectorAll(".category-btn");
       botones.forEach(btn => {
-        if (btn.dataset.category.toLowerCase() === catDesdeUrl.toLowerCase()) {
+        // Usamos trim() y toLowerCase() para evitar errores por espacios o mayúsculas
+        if (btn.dataset.category.trim().toLowerCase() === catDesdeUrl.trim().toLowerCase()) {
           botones.forEach(b => b.classList.remove("active"));
           btn.classList.add("active");
+          // Ejecutamos el filtro
           aplicarFiltros();
         }
       });
