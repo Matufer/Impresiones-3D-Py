@@ -6,7 +6,7 @@
     "images": ["images/fur1.jpg", "images/fur2.jpg"],
     "description": "LLavero de Furia Nocturna y Furia Luminosa.",
     "category": "Accesorios",
-    "stock": 8
+    "stock": 1
   },
   {
     "id": "p0323",
@@ -15,7 +15,25 @@
     "images": ["images/h1.png", "images/h2.png", "images/h3.png"],
     "description": "Hulk con textura de crochet 10cm de altura",
     "category": "Superheroes",
-    "stock": 6
+    "stock": 3
+  },
+  {
+    "id": "p0323",
+    "name": "Venom con textura crochet",
+    "price": 65000,
+    "images": ["images/ve1.png", "images/ve2.png", "images/ve3.png"],
+    "description": "Venom con textura de crochet 10cm de altura",
+    "category": "Superheroes",
+    "stock": 2
+  },
+  {
+    "id": "p0323",
+    "name": "SpiderMan con textura crochet",
+    "price": 55000,
+    "images": ["images/sm1.png", "images/sm2.png", "images/sm3.png"],
+    "description": "SpiderMan con textura de crochet 10cm de altura",
+    "category": "Superheroes",
+    "stock": 2
   },
   {
     "id": "p002",
@@ -24,7 +42,7 @@
     "images": ["images/pulp1.jpg", "images/pulp2.jpg"],
     "description": "Llaveros de pulpos articulados de colores.",
     "category": "Accesorios",
-    "stock": 12
+    "stock": 3
   },
   {
     "id": "p012",
@@ -33,7 +51,7 @@
     "images": ["images/capy1.jpg", "images/capy2.jpg"],
     "description": "Lapicero con forma de Capibara color rosado.",
     "category": "Accesorios",
-    "stock": 5
+    "stock": 1
   },
   {
     "id": "p015-alt",
@@ -51,7 +69,7 @@
     "images": ["images/capyl1.jpg", "images/capyl2.jpg"],
     "description": "Lapicero con forma de Capibara.",
     "category": "Accesorios",
-    "stock": 9
+    "stock": 5
   },
   {
     "id": "p001",
@@ -60,7 +78,7 @@
     "images": ["images/pul1.jpg", "images/pul2.jpg"],
     "description": "Llaveros de pulpos articulados de colores.",
     "category": "Accesorios",
-    "stock": 11
+    "stock": 1
   },
   {
     "id": "p007",
@@ -69,7 +87,7 @@
     "images": ["images/bat1.jpg"],
     "description": "Llaveros de Batman.",
     "category": "Accesorios Superheroes",
-    "stock": 6
+    "stock": 2
   },
   {
     "id": "p008",
@@ -78,7 +96,7 @@
     "images": ["images/varp1.jpg", "images/varp2.jpg"],
     "description": "Varitas de Harry Potter, hay de diferentes personajes.",
     "category": "Fantasia",
-    "stock": 4
+    "stock": 1
   },
   {
     "id": "p002-dup",
@@ -87,7 +105,7 @@
     "images": ["images/pulp1.jpg", "images/pulp2.jpg"],
     "description": "Llaveros de pulpos articulados de colores.",
     "category": "Accesorios",
-    "stock": 7
+    "stock": 3
   },
   {
     "id": "p013",
@@ -96,7 +114,7 @@
     "images": ["images/gat1.jpg", "images/gat2.jpg"],
     "description": "Lapicero con forma de Gato.",
     "category": "Accesorios",
-    "stock": 10
+    "stock": 4
   },
   {
     "id": "p003",
@@ -114,6 +132,6 @@
     "images": ["images/varhh1.jpg", "images/varhh2.jpg", "images/varhh3.jpg"],
     "description": "Varita de Harry Potter con Soporte.",
     "category": "Fantasia",
-    "stock": 5
+    "stock": 6
   }
 ]
